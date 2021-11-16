@@ -1,0 +1,95 @@
+spring:
+  datasource:
+    url: jdbc:sqlserver://sql01:1433;DatabaseName=test_yum_central_portal
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    username: sa
+    password: 111111
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+
+#  mail:
+#    username: 1312476398@qq.com
+#    password: valuvtydhvwmieeg
+#    host: smtp.qq.com
+#    port: 80
+#发邮件配置文件
+  mail:
+    default-encoding: UTF-8
+    host: smtp.qq.com
+    password: csxurdvjpikaibbf
+    port: 465
+    username: 1312476398
+    from: 1312476398@qq.com  #此号发邮件
+    properties:
+      mail:
+        smtp:
+          auth: true
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
+          starttls:
+            enable: false
+
+icon:
+  email:
+    template-path: E:/pdf/Alley/
+    mail-pending-icon:
+      tpl-name: PendingIconEmailTpl.ftl
+      subject: DEV YUM Central Portal Pending Icons
+      sendto: 2268760957@qq.com
+    mail-unapproved-icon:
+      tpl-name: UnapprovedIconEmailTpl.ftl
+      subject: DEV YUM Central Portal Unapproved Icons
+
+    bcc: 3566154855@qq.com
+    weeklycron: 0 0 9 * * 1
+    minutecron: 0 1/11 * * * *
+    updateminute: -10
+    siteTXT: E:/pdf/Alley/AttachmentDate.txt
+
+system-setting: # Asset_icon表的图片链接，需要拼接
+  picture-url: http://dev-services.easternphoenix.com/cp-icon/image
+
+
+server:
+  port: 8081
+
+options:
+  test:
+  - {key: "key01", key2: "key02",key3: 'key03'}
+  - {key: "key01", key2: "key02"}
+  test2:
+  - {key: "key01", key2: "key02"}
+  test3:
+  - {key: "key01", key2: "key02"}
+  - {key: "key01", key2: "key02"}
+#不知道为啥yaml的配置文件数据的名字设置templateId就是报错，template就没事
+template1:
+  defaultId:
+    {KFC: 'KFC_01',PHI: 'PHI_02',KFC02: 'KFC_02'}
+
+template2:
+  defaultId: 字符串
+
+routine:
+  report:
+    template-path: E:/pdf/sa/template/
+    export-path: E:/pdf/sa/ttsphsa08/
+    rptTemperatureSummary:
+      template-name: temperature_summary.jasper
+      report-type: excel
+      export-name: Temperature Summary for %1$s-%2$s.pdf
+      template:
+        common: temperature_summary_arial.jasper
+        my_MM: temperature_summary.jasper
+    rptPestWalkSummary:
+      template-name: pest_walk_summary.jasper
+      report-type: excel
+      export-name: Pest Walk Summary for %1$s-%2$s.pdf
+      template:
+        common: pest_walk_summary_arial.jasper
+        my_MM: pest_walk_summary.jasper
+
+
