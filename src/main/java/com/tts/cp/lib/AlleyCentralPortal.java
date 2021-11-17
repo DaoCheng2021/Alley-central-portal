@@ -20,4 +20,5 @@ public class AlleyCentralPortal {
         SpringApplication.run(AlleyCentralPortal.class, args);
     }
 
+    //这个项目交给GitHub来进行管理，每次上下班都要pull、push一下
 }
