@@ -13,5 +13,5 @@ public interface CourseService {
 
     StandardResponse getAvailableMarketsByUserAndBrand(String userId, String brand);
 
-//    StandardResponse getConfPerform
+    StandardResponse getSpValidation(String templateId, String validationId, String vGroup);
 }

@@ -3,12 +3,16 @@ package com.tts.cp.lib.visit.dao.impl;
 import com.tts.cp.lib.common.AlleyUtils;
 import com.tts.cp.lib.visit.bean.ConfPerform;
 import com.tts.cp.lib.visit.bean.LibItemsMini;
+import com.tts.cp.lib.visit.bean.SpValidation;
 import com.tts.cp.lib.visit.dao.CourseDAO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.*;
-import org.springframework.jdbc.core.namedparam.*;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Component;
 
@@ -33,6 +37,7 @@ public class CourseDAOImpl implements CourseDAO {
     private SimpleJdbcCall SpGetSpTestAlley3;
     private SimpleJdbcCall SpGetSpTestAlley3_old;
     private SimpleJdbcCall SpGetLanguageView;
+    private SimpleJdbcCall SpValidationCall;
 
     private final static RowMapper<LibItemsMini> LIB_ITEMS_MINI = BeanPropertyRowMapper.newInstance(LibItemsMini.class);
     private final static RowMapper<ConfPerform> CONF_PERFORM = BeanPropertyRowMapper.newInstance(ConfPerform.class);
@@ -55,6 +60,9 @@ public class CourseDAOImpl implements CourseDAO {
                 .declareParameters(
                         new SqlReturnResultSet("templateList", new ColumnMapRowMapper()),
                         new SqlReturnResultSet("languageList", new ColumnMapRowMapper()));
+
+        this.SpValidationCall = new SimpleJdbcCall(dataSource).withProcedureName("sp_validation")
+                .declareParameters(new SqlReturnResultSet("validation", new SingleColumnRowMapper<>(SpValidation.class)));
     }
 
     @Override
@@ -221,24 +229,32 @@ public class CourseDAOImpl implements CourseDAO {
         return returnConfPerform;
     }
 
-    private final static String SQL_SQL_CONF_PERFORM_LIST2="SELECT * FROM conf_perform WHERE brand=:brand AND template_id=:templateId";
+    private final static String SQL_SQL_CONF_PERFORM_LIST2 = "SELECT * FROM conf_perform WHERE brand=:brand AND template_id=:templateId";
 
     @Override
     public List<ConfPerform> getConfPerformList(String brand, Set<String> templateId) {
-        Map map=new HashMap<>();
-        map.put("brand",brand);
-        map.put("templateId",templateId);
+        Map map = new HashMap<>();
+        map.put("brand", brand);
+        map.put("templateId", templateId);
         List<ConfPerform> confPerformList = namedParameterJdbcTemplate.query(SQL_SQL_CONF_PERFORM_LIST2, map, CONF_PERFORM);
         return confPerformList;
     }
 
     //-------Test 10 21
-    private final static String GET_CONF_PERFORM_NAME="SELECT name FROM conf_perform where brand=?";
+    private final static String GET_CONF_PERFORM_NAME = "SELECT name FROM conf_perform where brand=?";
 
     @Override
     public List<String> getConfPerformName(String brand) {
-        List<String> list = jdbcTemplate.queryForList(GET_CONF_PERFORM_NAME, String.class,brand);
+        List<String> list = jdbcTemplate.queryForList(GET_CONF_PERFORM_NAME, String.class, brand);
         return list;
+    }
+
+    @Override
+    public List<SpValidation> getSpValidation(String templateId, String validationId, String vGroup) {
+        log.info("--getSpValidation:{},{},{}", templateId, validationId, vGroup);
+        Map<String, Object> execute = SpValidationCall.execute(templateId, validationId, vGroup);
+        List<SpValidation> validations = (List<SpValidation>) execute.get("validation");
+        return validations;
     }
 
 }

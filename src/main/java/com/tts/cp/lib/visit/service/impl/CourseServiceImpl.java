@@ -1,5 +1,6 @@
 package com.tts.cp.lib.visit.service.impl;
 
+import com.tts.cp.lib.visit.bean.SpValidation;
 import com.tts.cp.lib.visit.bean.UserBrandCountry;
 import com.tts.cp.lib.visit.dao.CourseDAO;
 import com.tts.cp.lib.visit.dao.UserBrandCountryRepository;
@@ -7,14 +8,10 @@ import com.tts.cp.lib.visit.service.CourseService;
 import com.tts.lib.web.StandardResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -81,6 +78,20 @@ public class CourseServiceImpl implements CourseService {
         });
         StandardResponse sr = new StandardResponse();
         sr.setData(list);
+        return sr;
+    }
+
+    @Override
+    public StandardResponse getSpValidation(String templateId, String validationId, String vGroup) {
+        log.info("--getSpValidation:{},{},{}", templateId, validationId, vGroup);
+        List<SpValidation> validationList = courseDAO.getSpValidation(templateId, validationId, vGroup);
+        LinkedHashMap<String, List<SpValidation>> collect = validationList.stream().collect(Collectors.groupingBy(SpValidation::getSubVGroup, LinkedHashMap::new, Collectors.toList()));
+        Map<String, List<SpValidation>> collect2 = validationList.stream().collect(Collectors.groupingBy(SpValidation::getSubVGroup));
+        Map map = new HashMap();
+        map.put("collect1", collect);
+        map.put("collect2", collect2);
+        StandardResponse sr = new StandardResponse();
+        sr.setData(map);
         return sr;
     }
 }

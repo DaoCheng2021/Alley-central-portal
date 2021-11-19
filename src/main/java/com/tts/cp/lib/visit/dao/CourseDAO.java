@@ -1,6 +1,7 @@
 package com.tts.cp.lib.visit.dao;
 
 import com.tts.cp.lib.visit.bean.ConfPerform;
+import com.tts.cp.lib.visit.bean.SpValidation;
 
 import java.util.List;
 import java.util.Map;
@@ -40,5 +41,6 @@ public interface CourseDAO {
 
     List<String> getConfPerformName(String brand);
 
+    List<SpValidation> getSpValidation(String templateId, String validationId, String vGroup);
 
 }

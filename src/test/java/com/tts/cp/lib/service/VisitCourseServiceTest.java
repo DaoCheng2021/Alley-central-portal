@@ -1,13 +1,14 @@
 package com.tts.cp.lib.service;
 
 import com.tts.cp.lib.visit.bean.LibItemsMini;
+import com.tts.cp.lib.visit.bean.SpValidation;
 import com.tts.cp.lib.visit.service.CourseService;
 import com.tts.lib.web.StandardResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.util.Assert;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -43,6 +44,14 @@ public class VisitCourseServiceTest {
         StandardResponse sr = courseService.getAvailableMarketsByUserAndBrand("ttsphsa08", "PHI");
         List list = (List) sr.getData();
         System.out.println("");
+    }
+
+    @Test
+    public void TestGetSpValidation() {
+        StandardResponse sr = courseService.getSpValidation("ACE", "VAL1635474493301XRWU", "Translation");
+        Map map = (Map) sr.getData();
+        LinkedHashMap<String, List<SpValidation>> map1 = (LinkedHashMap<String, List<SpValidation>>) map.get("collect1");
+        Map<String, List<SpValidation>> map2 = (Map<String, List<SpValidation>>) map.get("collect2");
     }
 
 }
