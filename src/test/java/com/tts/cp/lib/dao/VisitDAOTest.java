@@ -33,18 +33,12 @@ public class VisitDAOTest {
     @Autowired
     private LibItemsMiniRepository libItemsMiniRepository;
 
-    @Test
-    public void test01() {
-//        List<String> aaa = libItemsMiniRepository.aaa2();
-//        System.out.println(aaa.size());
-//        aaa.remove("PHI.MST.TESTO.INFO.8936876E90");
-//        System.out.println(aaa.size());
-
-
-//        List<LibItemsMini> libItemsMiniList = libItemsMiniRepository.findAllByDeleted(true);
-//        System.out.println("");
-//        Set<String> collect = libItemsMiniList.stream().map(LibItemsMini::getItemId).collect(toSet());
-//        System.out.println("");
+    @Test // 运用stream.filter流式编程加过滤器来判断List有没有TemplateId=HCV的数据，isEmpty有值就是false，空就是true
+    public void TestFindAllByBrand() {
+        List<ConfPerform> confPerformList = confPerformRepository.findAllByBrand("KFC");
+        List<ConfPerform> confPerforms = confPerformList.stream().filter(conf -> conf.getTemplateId().equalsIgnoreCase("HCV2")).collect(Collectors.toList());
+        boolean empty = confPerforms.isEmpty();
+        System.out.println(empty);
     }
 
     @Test // 返回的两个以上的字段，并且多条数据，用这个  或者用List<User>接收
@@ -206,7 +200,8 @@ public class VisitDAOTest {
 
     @Test // 条件是Set<id>,查询多条数据
     public void TestGetConfPerformList2() {
-        Set<String> set = new HashSet<>();
+//        Set<String> set = new HashSet<>();
+        List<String> set=new ArrayList<>();
         set.add("ECV3");
         set.add("ECTEST01");
         set.add("ECTESTV1");

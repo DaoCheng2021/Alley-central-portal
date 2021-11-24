@@ -1,8 +1,8 @@
 package com.tts.cp.lib.visit.bean;
 
+
 import lombok.Data;
 import org.springframework.util.StringUtils;
-import sun.plugin.util.UserProfile;
 
 import java.util.HashSet;
 import java.util.List;
@@ -31,15 +31,15 @@ public class UserAccess {
 
 
     private String languageCode;
-    private UserProfile userProfile;
+//    private UserProfile userProfile;
 
     public void setBmus(String bmus) {
         this.bmus = bmus;
         Set<String> bmuList = StringUtils.commaDelimitedListToSet(bmus);
         Set<String> brands = new HashSet<>();
-        bmuList.forEach(bmu ->{
-            if(bmu.endsWith("K")) brands.add("KFC");
-            if(bmu.endsWith("P")) brands.add("PHI");
+        bmuList.forEach(bmu -> {
+            if (bmu.endsWith("K")) brands.add("KFC");
+            if (bmu.endsWith("P")) brands.add("PHI");
         });
         this.brand = brands;
     }

@@ -229,10 +229,11 @@ public class CourseDAOImpl implements CourseDAO {
         return returnConfPerform;
     }
 
-    private final static String SQL_SQL_CONF_PERFORM_LIST2 = "SELECT * FROM conf_perform WHERE brand=:brand AND template_id=:templateId";
+    private final static String SQL_SQL_CONF_PERFORM_LIST2 = "SELECT * FROM conf_perform WHERE brand=:brand AND template_id in (:templateId)";
 
     @Override
-    public List<ConfPerform> getConfPerformList(String brand, Set<String> templateId) {
+    public List<ConfPerform> getConfPerformList(String brand, List<String> templateId) {
+//    public List<ConfPerform> getConfPerformList(String brand, Set<String> templateId) {
         Map map = new HashMap<>();
         map.put("brand", brand);
         map.put("templateId", templateId);

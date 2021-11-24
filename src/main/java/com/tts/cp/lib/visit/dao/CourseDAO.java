@@ -37,7 +37,8 @@ public interface CourseDAO {
 
     ConfPerform getConfPerformList(ConfPerform confPerform);
 
-    List<ConfPerform> getConfPerformList(String brand, Set<String> templateId);
+//    List<ConfPerform> getConfPerformList(String brand, Set<String> templateId);
+    List<ConfPerform> getConfPerformList(String brand, List<String> templateId);
 
     List<String> getConfPerformName(String brand);
 

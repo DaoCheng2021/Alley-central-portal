@@ -34,17 +34,25 @@ import java.util.stream.Collectors;
 public class DemoTest_01 {
 
     @Test
-    public void test27(){
+    public void test27() {
     }
 
     @Test
     public void test26() { //Optional(阿不神闹)可选择的
         //Optional.ofNullable,如果对象是空的话，就会创建一个空的对象返回，避免了空指针异常。这样不用if判断空指针异常，代码更加的优雅
         List<String> list = null;
+        List<String> list1 = new ArrayList<>();
+        list1.add("Optional");
+        list1.add("Optional2");
+        list1.add("Optional3");
         List<String> list2 = new ArrayList<>();
-        Optional.ofNullable(list).orElse(new ArrayList<>()).forEach(li->list2.add(li));
+        Optional.ofNullable(list1).orElse(new ArrayList<>()).forEach(li -> list2.add(li));
+        for (String s : list2) {
+            System.out.println(s);
+        }
+        //list 如果null 返回空的new ArrayList();
+        List<String> list3 = Optional.ofNullable(list).orElse(new ArrayList<>());
     }
-
 
     @Test // Stream流
     public void test25() {
@@ -166,7 +174,7 @@ public class DemoTest_01 {
 
         String string1 = StringUtils.collectionToCommaDelimitedString(list); //List集合转成String逗号相连用这个
         String string2 = StringUtils.collectionToDelimitedString(list, "。");
-        String string3 = StringUtils.collectionToDelimitedString(list, "。","前缀prefix","后缀suffix");
+        String string3 = StringUtils.collectionToDelimitedString(list, "。", "前缀prefix", "后缀suffix");
         System.out.println(string1);
         System.out.println(list.toString());
         String string = list.toString();

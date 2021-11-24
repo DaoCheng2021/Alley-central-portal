@@ -33,4 +33,6 @@ public interface ConfPerformRepository extends JpaRepository<ConfPerform, String
     @Query(value = "EXEC sp_test_Alley3_20210826 @version_id=:versionId ", nativeQuery = true)
     List<String> execCourse(@Param("versionId") String versionId);
 
+    List<ConfPerform> findAllByBrand(String brand);
+
 }
