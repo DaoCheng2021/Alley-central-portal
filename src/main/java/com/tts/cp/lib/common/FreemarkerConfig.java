@@ -18,14 +18,4 @@ public class FreemarkerConfig {
         bean.setDefaultEncoding("UTF-8");
         return bean;
     }
-
-    //测试全搜索
-    //测试全
-
-    //测试全
-    //测试全
-    //测试全
-
-    //测试全
-    
 }

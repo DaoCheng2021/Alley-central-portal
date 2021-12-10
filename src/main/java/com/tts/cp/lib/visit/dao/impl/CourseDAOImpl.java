@@ -209,7 +209,7 @@ public class CourseDAOImpl implements CourseDAO {
 
     private final static String SQL_UPDATE_BATCH = "UPDATE conf_perform_test_Alley SET name=:name, perform_type=:performType, display_order=:displayOrder WHERE template_id=:templateId";
 
-    //一次更新多条数据的多个字段
+    //一次更新多条数据的多个字段,也可以执行insert，只需要把sql改一下就OK
     @Override
     public int updateBatch(List<ConfPerform> list) {
         int[] ints = namedParameterJdbcTemplate.batchUpdate(SQL_UPDATE_BATCH, SqlParameterSourceUtils.createBatch(list.toArray()));

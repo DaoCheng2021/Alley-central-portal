@@ -32,6 +32,11 @@ spring:
           starttls:
             enable: false
 
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    daemonize: yes
+
 icon:
   email:
     template-path: E:/pdf/Alley/
@@ -54,7 +59,7 @@ system-setting: # Asset_icon表的图片链接，需要拼接
 
 
 server:
-  port: 8081
+  port: 8090
 
 options:
   test:

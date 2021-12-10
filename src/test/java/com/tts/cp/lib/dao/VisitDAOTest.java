@@ -3,6 +3,7 @@ package com.tts.cp.lib.dao;
 import com.tts.cp.lib.visit.bean.ConfPerform;
 import com.tts.cp.lib.visit.bean.LibItemsMini;
 import com.tts.cp.lib.visit.dao.*;
+import com.tts.lib.utils.IdUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,14 @@ public class VisitDAOTest {
 
     @Autowired
     private LibItemsMiniRepository libItemsMiniRepository;
+
+    @Test
+    public void test01(){
+        System.out.println(IdUtils.getId(""));
+        System.out.println(IdUtils.getId(""));
+        System.out.println(IdUtils.getId(""));
+        System.out.println(IdUtils.getId(""));
+    }
 
     @Test // 运用stream.filter流式编程加过滤器来判断List有没有TemplateId=HCV的数据，isEmpty有值就是false，空就是true
     public void TestFindAllByBrand() {

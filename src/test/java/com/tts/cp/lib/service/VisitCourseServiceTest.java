@@ -1,5 +1,6 @@
 package com.tts.cp.lib.service;
 
+import com.tts.cp.lib.common.RedisUtil;
 import com.tts.cp.lib.visit.bean.LibItemsMini;
 import com.tts.cp.lib.visit.bean.SpValidation;
 import com.tts.cp.lib.visit.service.CourseService;
@@ -7,10 +8,10 @@ import com.tts.lib.web.StandardResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Alley zhao created on 2021/9/3.
@@ -21,6 +22,19 @@ public class VisitCourseServiceTest {
 
     @Autowired
     private CourseService courseService;
+
+    @Autowired(required = false)
+    private RedisTemplate redisTemplate;
+
+    @Autowired
+    private RedisUtil redisUtil;
+
+    @Test
+    public void test01() {
+//        redisTemplate.opsForHash().put("MAP_KEY_USER_LIKED","likedUserId::likedPostId",1);
+//        redisTemplate.opsForHash().put("MAP_KEY_USER_LIKED","likedUserId::likedPostId",0);
+        redisTemplate.opsForHash().increment("MAP_KEY_USER_LIKED_COUNT","likedUserId",1);
+    }
 
     @Test //返回的数据是一个字段多条数据，可以用这样的List<String>来接收
     public void TestGetSpTestAlley3() {
@@ -54,4 +68,95 @@ public class VisitCourseServiceTest {
         Map<String, List<SpValidation>> map2 = (Map<String, List<SpValidation>>) map.get("collect2");
     }
 
+    @Test
+    public void TestRedis() {
+        redisTemplate.opsForValue().set("a", "a");
+        System.out.println(redisTemplate.opsForValue().get("a"));
+    }
+
+    @Test
+    public void RedisTest01() {
+        LibItemsMini libItemsMini = new LibItemsMini();
+        libItemsMini.setVersionId("left");
+        libItemsMini.setItemId("right");
+        redisTemplate.opsForValue().set("libItemsMini", libItemsMini);
+        System.out.println(redisTemplate.opsForValue().get("libItemsMini"));
+    }
+
+    @Test
+    public void RedisTest02() {
+        Set<String> a = redisUtil.keys("libItemsMini22232");
+        System.out.println(a);
+        System.out.println(redisUtil.hasKey("libItemsMini"));
+        redisUtil.del("a");
+        redisUtil.expire("list", 2000000);
+        redisUtil.getExpire("test");
+        redisUtil.hasKey("test");
+        redisUtil.del("list1");
+        boolean set = redisUtil.set("set", "普通缓存放入");
+        boolean setnx = redisUtil.setnx("set3", "HEH");
+        String set2 = (String) redisUtil.get("set");
+        boolean set1 = redisUtil.set("set4", "设置过期时间", -1);
+        boolean set3 = redisUtil.set("set4", "设置过期时间", -1);
+    }
+
+    @Test
+    public void RedisTest03() {
+//        long set5 = redisUtil.incr("set5", 1);
+//        long set51 = redisUtil.incr("set5", 2);
+//        long set52 = redisUtil.decr("set5", 1);
+        Map map = new HashMap();
+        map.put("map1", "value");
+        map.put("map2", "value2");
+        map.put("map3", "value3");
+//        boolean map1 = redisUtil.hmset("map1", map);
+//        String stringt= (String) redisUtil.hget("map1","map2");
+//        Map<Object, Object> map1 = redisUtil.hmget("map1");
+//        boolean map2 = redisUtil.hmset("map2", map, 10000);
+//        boolean hset = redisUtil.hset("map3", "key", "value");
+//        boolean hset2 = redisUtil.hset("map3", "key2", "value2",1000);
+//        redisUtil.hdel("map3","key","key2");
+//        boolean b = redisUtil.hHasKey("map2", "he");
+//        boolean hset = redisUtil.hset("map2", "map4", 1);
+//        double hincr = redisUtil.hincr("map2", "map4", 3);
+//        double hdecr = redisUtil.hdecr("map2", "map4", 1);
+//        long l = redisUtil.sSet("set", "value1", "value2", "value3");
+//        Set<Object> set = redisUtil.sGet("set");
+//        boolean b = redisUtil.sHasKey("set", "value2");
+//        long l1 = redisUtil.sSetAndTime("set2", 100, "value1", "value2");
+//        long set2 = redisUtil.sGetSetSize("set");
+//        long l = redisUtil.setRemove("set", "value2", "value3");
+
+        List list = new ArrayList();
+        list.add("listData1");
+        list.add("listData2");
+        list.add("listData3");
+        list.add("listData4");
+        list.add("listData5");
+        List lis2 = new ArrayList();
+        list.add("listData1");
+        list.add("listData2");
+        list.add("listData3");
+        list.add("listData4");
+        list.add("listData5");
+        List finalList = new ArrayList();
+        finalList.add(list);
+        finalList.add(lis2);
+//        boolean list1 = redisUtil.lSet("list", list);
+//        List<Object> list2 = redisUtil.lGet("list", 1, 3);
+//        long list3 = redisUtil.lGetListSize("list");
+//        Object list5 = redisUtil.lGetIndex("list", -3);
+//        boolean list2 = redisUtil.lSet("list2", finalList);
+        long l = redisUtil.lRemove("list", 2, "listData5");
+        boolean s = redisUtil.set("卧龙", "出师未捷身先死，长使英雄泪满襟！");
+    }
+
+    @Test
+    public void RedisTest04() {
+//        boolean set = redisUtil.setnx("set", "set+");
+//        Boolean set = redisTemplate.opsForValue().setIfAbsent("set2", "set+");
+//        Boolean aBoolean = redisTemplate.opsForValue().setIfAbsent("set3", "set3",du1);
+//        redisTemplate.opsForValue().set("set4","set323",2);
+        redisTemplate.opsForValue().set("set1", "set3111", 11111, TimeUnit.SECONDS);
+    }
 }

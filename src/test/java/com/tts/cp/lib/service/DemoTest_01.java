@@ -10,8 +10,10 @@ import com.tts.cp.lib.visit.bean.LibItemsMini;
 import com.tts.cp.lib.visit.bean.User;
 import com.tts.lib.utils.TextUtil;
 import lombok.extern.slf4j.Slf4j;
+import net.minidev.json.JSONUtil;
 import org.junit.Test;
 import org.springframework.util.StringUtils;
+import redis.clients.jedis.Jedis;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -35,6 +37,9 @@ public class DemoTest_01 {
 
     @Test
     public void test27() {
+        Jedis jedis=new Jedis("127.0.0.1",6379);
+        System.out.println(jedis.ping());
+//        JsonUtil
     }
 
     @Test

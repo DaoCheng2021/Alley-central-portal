@@ -18,13 +18,4 @@ public class OptionsUnsyncTo {
     private List<Map<String, String>> test;
     private List<Map<String, String>> test2;
     private List<Map<String, String>> test3;
-    //配置文件存List<Map>集合取数据
-
-    //aaa
-
-
-    //aaa
-
-
-    //测试全局替换成
 }
