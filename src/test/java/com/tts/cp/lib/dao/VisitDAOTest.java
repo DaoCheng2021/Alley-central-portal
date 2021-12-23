@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public class VisitDAOTest {
 
     @Autowired
-    private CourseDAO courseDAO;
+    private CourseDAO  courseDAO;
 
     @Autowired
     private UserBrandCountryRepository countryRepository;
