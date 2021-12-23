@@ -11,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author Alley zhao created on 2021/9/3.
@@ -28,13 +27,6 @@ public class VisitCourseServiceTest {
 
     @Autowired
     private RedisUtil redisUtil;
-
-    @Test
-    public void test01() {
-//        redisTemplate.opsForHash().put("MAP_KEY_USER_LIKED","likedUserId::likedPostId",1);
-//        redisTemplate.opsForHash().put("MAP_KEY_USER_LIKED","likedUserId::likedPostId",0);
-        redisTemplate.opsForHash().increment("MAP_KEY_USER_LIKED_COUNT","likedUserId",1);
-    }
 
     @Test //返回的数据是一个字段多条数据，可以用这样的List<String>来接收
     public void TestGetSpTestAlley3() {
@@ -66,12 +58,6 @@ public class VisitCourseServiceTest {
         Map map = (Map) sr.getData();
         LinkedHashMap<String, List<SpValidation>> map1 = (LinkedHashMap<String, List<SpValidation>>) map.get("collect1");
         Map<String, List<SpValidation>> map2 = (Map<String, List<SpValidation>>) map.get("collect2");
-    }
-
-    @Test
-    public void TestRedis() {
-        redisTemplate.opsForValue().set("a", "a");
-        System.out.println(redisTemplate.opsForValue().get("a"));
     }
 
     @Test
@@ -151,12 +137,51 @@ public class VisitCourseServiceTest {
         boolean s = redisUtil.set("卧龙", "出师未捷身先死，长使英雄泪满襟！");
     }
 
-    @Test
-    public void RedisTest04() {
-//        boolean set = redisUtil.setnx("set", "set+");
-//        Boolean set = redisTemplate.opsForValue().setIfAbsent("set2", "set+");
-//        Boolean aBoolean = redisTemplate.opsForValue().setIfAbsent("set3", "set3",du1);
-//        redisTemplate.opsForValue().set("set4","set323",2);
-        redisTemplate.opsForValue().set("set1", "set3111", 11111, TimeUnit.SECONDS);
+    @Test// 从Redis拿数据，没有数据就从数据库拿数据，顺便再存进去redis
+    public void TestGetRedisData() {
+        StandardResponse sr = courseService.getRedisData("PHI.MST.T1129.INFO.3B238794B0", "INF0000001");
+        LibItemsMini libItemsMini = (LibItemsMini) sr.getData();
     }
+
+    @Test
+    public void TestUpdateRedisData() {
+        StandardResponse sr = courseService.updateRedisData("PHI.MST.T1129.INFO.3B238794B0", "INF0000001");
+    }
+
+    @Test // 功能：点赞,author所有的article点赞的总数量，用户点赞的文章
+    public void TesAddPraise() {
+        String articleId = "article02"; // author写的文章唯一id（点赞的具体东西）
+        String userId = "userId02"; // 点赞的用户Id
+        String authorId = "authorId01";  //author
+        StandardResponse sr = courseService.addPraise(articleId, userId, authorId);
+        Map map = (Map) sr.getData();
+        System.out.println("现在这个" + authorId + "的这一篇文章点赞数量：" + map.get("finalPraise"));
+        System.out.println("现在这个" + authorId + "的这一篇文章总点赞数量：" + map.get("praiseCount"));
+        System.out.println("现在这个" + userId + "点赞的文章的数量：" + map.get("userPraiseCount"));
+
+    }
+
+    @Test // 用户取消点赞 规定时间保存到数据库
+    public void TestCancelPraise() {
+        String articleId = "article02"; // author写的文章唯一id（点赞的具体东西）
+        String userId = "userId01"; // 取消点赞的用户Id
+        String authorId = "authorId01";  //author
+        StandardResponse sr = courseService.cancelPraise(userId, articleId, authorId);
+    }
+
+    @Test // 微信投票，一个微信一分钟只能给一个author投票一次，过了一分钟才能投票下一次
+    public void TestAddVote() {
+        String userSoleId = "userSoleId01";
+        String authorSoleId = "authorSoleId01";
+        String result = courseService.addVote(userSoleId, authorSoleId);
+        System.out.println(result);
+    }
+
+    @Test
+    public void test01() {
+//        redisUtil.lSet("li","li23");
+        redisUtil.lRemove("li", 1, "li23");
+    }
+
+
 }

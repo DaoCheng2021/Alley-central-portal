@@ -15,10 +15,13 @@ public interface LibItemsMiniRepository extends JpaRepository<LibItemsMini, LibI
 
     List<LibItemsMini> findAllByDeleted(boolean deleted);
 
-    @Query(value = "select distinct version_id from lib_items_mini",nativeQuery = true)
+    @Query(value = "select distinct version_id from lib_items_mini", nativeQuery = true)
     Set<String> aaa();
-    @Query(value = "select distinct version_id from lib_items_mini",nativeQuery = true)
+
+    @Query(value = "select distinct version_id from lib_items_mini", nativeQuery = true)
     List<String> aaa2();
 
     List<LibItemsMini> findAllByDataType(String dataType);
+
+    LibItemsMini findByVersionIdAndItemId(String versionId, String itemId);
 }

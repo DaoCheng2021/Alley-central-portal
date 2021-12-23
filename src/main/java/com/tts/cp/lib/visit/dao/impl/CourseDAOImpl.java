@@ -258,6 +258,31 @@ public class CourseDAOImpl implements CourseDAO {
         return validations;
     }
 
+    private final static String GET_LIB_ITEMS_MINI_ITEM_ID = "SELECT top 10 item_id,desc0 FROM lib_items_mini WHERE version_id=?";
+
+    // 如果只返回两个字段，或者三个字段，可以用这个。返回的List集合里，一个Map里面一个key是一个字段的id，values是数据，可以返回无限字段。
+    // List.get(0)获取这一条数据，get("item_id")获取item_id的值，get("desc0")获取desc0的值
+    @Override
+    public List getLibItemsMiniItemId(String versionId) {
+        List<Map<String, Object>> query = jdbcTemplate.query(GET_LIB_ITEMS_MINI_ITEM_ID, new ColumnMapRowMapper(), versionId);
+        return query;
+    }
+
+    private final static String GET_LIB_ITEMS_MINI_ITEMS="SELECT" +
+            " * FROM lib_items_mini WHERE version_id=:versionId AND item_id IN (:itemIdSet) ORDER BY CHARINDEX(item_id,:itemIdString); ";
+    //这样写避免了in()查询顺序的问题
+
+    @Override
+    public List getLibItemsMiniItems(String versionId, Set<String> itemIdSet,String itemIdString) {
+        log.info("--getLibItemsMiniItems:{}");
+        Map map=new HashMap();
+        map.put("versionId",versionId);
+        map.put("itemIdSet",itemIdSet);
+        map.put("itemIdString",itemIdString);
+        List list = namedParameterJdbcTemplate.query(GET_LIB_ITEMS_MINI_ITEMS, map, LIB_ITEMS_MINI);
+        return list;
+    }
+
 }
 
 

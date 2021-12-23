@@ -10,10 +10,8 @@ import com.tts.cp.lib.visit.bean.LibItemsMini;
 import com.tts.cp.lib.visit.bean.User;
 import com.tts.lib.utils.TextUtil;
 import lombok.extern.slf4j.Slf4j;
-import net.minidev.json.JSONUtil;
 import org.junit.Test;
 import org.springframework.util.StringUtils;
-import redis.clients.jedis.Jedis;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -36,10 +34,32 @@ import java.util.stream.Collectors;
 public class DemoTest_01 {
 
     @Test
+    public void test01(){
+    }
+
+    @Test
+    public void test28(){
+        String string ="PIC0000639,PIC0000646,PIC0000645,PIC0000642,PIC0000643,PIC0000648";
+        LinkedHashSet<String> imageIdSet = (LinkedHashSet<String>) StringUtils.commaDelimitedListToSet(string);
+        Set<String> set = StringUtils.commaDelimitedListToSet(string);
+        Set<String> imageIdSet2 =  StringUtils.commaDelimitedListToSet(string);
+        String[] split = string.split(",");
+        Set<String> strings = new LinkedHashSet<>(Arrays.asList(split));
+        if (strings.size()>=3){
+            System.out.println("ss");
+        }
+        System.out.println(strings.contains("作者3"));
+    }
+
+    @Test // 带逗号的字符串，根据逗号分割成多个字符串，删除或者add再生成新的用逗号分割的的数据返回
     public void test27() {
-        Jedis jedis=new Jedis("127.0.0.1",6379);
-        System.out.println(jedis.ping());
-//        JsonUtil
+        String string ="AUP,author,作者";
+        String[] split = string.split(",");
+        ArrayList<String> list = new ArrayList<>(Arrays.asList(split));
+        System.out.println("list:"+list);
+        list.remove("AUP");
+        String string1 = StringUtils.collectionToCommaDelimitedString(list);
+        System.out.println("string1:"+string1);
     }
 
     @Test
@@ -51,7 +71,7 @@ public class DemoTest_01 {
         list1.add("Optional2");
         list1.add("Optional3");
         List<String> list2 = new ArrayList<>();
-        Optional.ofNullable(list1).orElse(new ArrayList<>()).forEach(li -> list2.add(li));
+        Optional.ofNullable(list).orElse(new ArrayList<>()).forEach(li -> list2.add(li));
         for (String s : list2) {
             System.out.println(s);
         }
@@ -82,6 +102,9 @@ public class DemoTest_01 {
         System.out.println(new ObjectMapper().writeValueAsString(product)); // 对象序列化转Json
         // Json转对象或者Map
         Product product1 = new ObjectMapper().readValue("{\"num\":0,\"price\":null,\"name\":null,\"category\":null,\"IdId\":3}", Product.class);
+        Map map = new ObjectMapper().readValue("{\"num\":0,\"price\":null,\"name\":null,\"category\":null,\"IdId\":3}", Map.class);
+        System.out.println(map.get("num"));
+        System.out.println(product1);
     }
 
     @Test
@@ -541,4 +564,5 @@ public class DemoTest_01 {
         String string1 = StringUtils.collectionToCommaDelimitedString(list);//把集合数据通过 ，相连变成字符串
         System.out.println();
     }
+
 }

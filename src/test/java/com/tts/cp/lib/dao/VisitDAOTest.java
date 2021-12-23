@@ -1,13 +1,16 @@
 package com.tts.cp.lib.dao;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tts.cp.lib.visit.bean.ConfPerform;
 import com.tts.cp.lib.visit.bean.LibItemsMini;
+import com.tts.cp.lib.visit.bean.LibTemplateScope;
 import com.tts.cp.lib.visit.dao.*;
-import com.tts.lib.utils.IdUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.util.StringUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -34,20 +37,39 @@ public class VisitDAOTest {
     @Autowired
     private LibItemsMiniRepository libItemsMiniRepository;
 
-    @Test
-    public void test01(){
-        System.out.println(IdUtils.getId(""));
-        System.out.println(IdUtils.getId(""));
-        System.out.println(IdUtils.getId(""));
-        System.out.println(IdUtils.getId(""));
+    @Test// DAO的sql代码用in来查询返回的结果会有顺序的问题，这个dao这样写避免了顺序的问题
+    public void TestGetLibItemsMiniItems() {
+        Set set = new HashSet();
+        set.add("PIC0000648");
+        set.add("PIC0000645");
+        set.add("PIC0000634");
+        set.add("PIC0000635");
+        set.add("PIC0000636");
+        String itemIdString = StringUtils.collectionToCommaDelimitedString(set);
+        List<LibItemsMini> libItemsMiniItems = courseDAO.getLibItemsMiniItems("AUP.MST.ACE.ATT.2020.01", set, itemIdString);
+    }
+
+    @Test // 如果返回结果只有两个字段、三个字段，可以用这样的DAO 返回类型是List<Map<String,Object>，DAO层用new ColumnMapRowMapper() 类型的接收
+    public void TestGetLibItemsMiniItemId() {
+
+        LibItemsMini libitemsmini = libItemsMiniRepository.findByVersionIdAndItemId("PHI.MST.T1129.INFO.3B238794B0", "INF0000001");
+        try { // 实体类转JSON
+            String stringJSON = new ObjectMapper().writeValueAsString(libitemsmini);
+            // JSON转实体类
+            LibItemsMini libItemsMini = new ObjectMapper().readValue(stringJSON, LibItemsMini.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        List<Map<String, Object>> itemIdList = courseDAO.getLibItemsMiniItemId("PHI.MST.T1129.5CB429EA92");
+        System.out.println(itemIdList.get(0).get("item_id") + ":" + itemIdList.get(0).get("desc0"));
     }
 
     @Test // 运用stream.filter流式编程加过滤器来判断List有没有TemplateId=HCV的数据，isEmpty有值就是false，空就是true
     public void TestFindAllByBrand() {
-        List<ConfPerform> confPerformList = confPerformRepository.findAllByBrand("KFC");
-        List<ConfPerform> confPerforms = confPerformList.stream().filter(conf -> conf.getTemplateId().equalsIgnoreCase("HCV2")).collect(Collectors.toList());
-        boolean empty = confPerforms.isEmpty();
-        System.out.println(empty);
+        List<ConfPerform> confPerformList = confPerformRepository.findAllByBrand("PHI");
+        // 用stream来操作获取List<USER>其中一条数据一个字段的数据，也可以用list.for循环
+        String icon = confPerformList.stream().filter(conf -> conf.getTemplateId().equalsIgnoreCase("T1129")).collect(Collectors.toList()).get(0).getIcon();
+        System.out.println(icon); // ep-iconfont-other-equip
     }
 
     @Test // 返回的两个以上的字段，并且多条数据，用这个  或者用List<User>接收
@@ -210,7 +232,7 @@ public class VisitDAOTest {
     @Test // 条件是Set<id>,查询多条数据
     public void TestGetConfPerformList2() {
 //        Set<String> set = new HashSet<>();
-        List<String> set=new ArrayList<>();
+        List<String> set = new ArrayList<>();
         set.add("ECV3");
         set.add("ECTEST01");
         set.add("ECTESTV1");
@@ -242,17 +264,41 @@ public class VisitDAOTest {
         }
     }
 
-    @Test
+    @Test //Stream
     public void TestFindAllByDeleted() {
         List<LibItemsMini> allByDeleted = libItemsMiniRepository.findAllByDeleted(false);
-        System.out.println("s");
+//        Set<String> collect1 = allByDeleted.stream().map(m -> m.getItemId()).collect(Collectors.toSet());
+        Set<String> set = new HashSet<>();
+
     }
 
     @Test
     public void TestFindAllByDataType() {
         List<LibItemsMini> findAllByDataType = libItemsMiniRepository.findAllByDataType("category");
+        if (null == findAllByDataType || findAllByDataType.isEmpty()) {
+
+        }
         Set<LibItemsMini> collect = findAllByDataType.stream().filter(list -> "AUP.MST.ACE.FS.2020.02".equals(list.getVersionId())).collect(Collectors.toSet());
         System.out.println("");
     }
+
+
+    @Test
+    public void TestGetConfPerform() {
+        List<ConfPerform> confPerformList = tableDAO.getConfPerform("ace");
+    }
+
+    @Autowired
+    private LibTemplateScopeRepository libTemplateScopeRepository;
+
+    @Test
+    public void TestGetLibTemplateScope() {
+        LibTemplateScope libTemplateScope = tableDAO.getLibTemplateScope("10254", "PHI", "ABW");
+        libTemplateScope.setBrand("testaaa2");
+        libTemplateScopeRepository.save(libTemplateScope);
+
+//        int i = tableDAO.insertLibTemplateScope(libTemplateScope);
+    }
+
 
 }

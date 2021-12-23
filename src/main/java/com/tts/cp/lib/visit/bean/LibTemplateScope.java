@@ -5,10 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Date;
 
 /**
  * @author Alley zhao created on 2021/7/20.
@@ -29,6 +27,13 @@ public class LibTemplateScope {
     private String countryCode;
 
     private boolean enabled;
+    private String updateBy;
+    private Date updateDate;
+    private String bmu;
+
+    @Transient
+    private String userId;
+
 
 
 }

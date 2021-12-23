@@ -16,7 +16,7 @@ import java.util.Set;
  */
 public interface ConfPerformRepository extends JpaRepository<ConfPerform, String> {
 
-    // 原则上一个表对应一个DAO比较好
+    // 原则上一个表对应一个DAO比较好。JpaRepository只能对应一个表
     @Modifying
     @Transactional // 更新的@Query代码的sql要加这两个注解@Modifying @Transactional
     @Query(value = "UPDATE conf_perform_test_Alley SET create_date=GETDATE() WHERE template_id=?", nativeQuery = true)
