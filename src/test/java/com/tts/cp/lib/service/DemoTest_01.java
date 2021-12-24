@@ -1,6 +1,11 @@
 package com.tts.cp.lib.service;
 
 import com.alibaba.fastjson.JSON;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.Claim;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
@@ -9,8 +14,11 @@ import com.tts.cp.lib.visit.bean.ConfPerform;
 import com.tts.cp.lib.visit.bean.LibItemsMini;
 import com.tts.cp.lib.visit.bean.User;
 import com.tts.lib.utils.TextUtil;
+import freemarker.template.SimpleDate;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.StringUtils;
 
 import java.io.BufferedWriter;
@@ -33,19 +41,52 @@ import java.util.stream.Collectors;
 @Slf4j
 public class DemoTest_01 {
 
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd HH:mm");
+
+
+
     @Test
-    public void test01(){
+    public void test01() {
+        Map<String, Object> map = new HashMap<>();
+        //声明类型和方法
+        map.put("alg", "HS256");
+        map.put("typ", "JWT");
+
+        String token = JWT.create()
+                .withHeader(map)//头
+                .withClaim("SIGN_ID", "signId")//用户id
+                .withClaim("LOG_IN_DATE", "logInDate")//登录日期
+                .sign(Algorithm.HMAC256("sss"));//签名
+        System.out.println(token);
+        String s = this.analysisToken(token);
+        System.out.println(s);
+    }
+
+    //解析token
+    private String analysisToken(String token) {
+        log.info("AnalysisToken Token:{}",token);
+        JWTVerifier verifier = JWT.require(Algorithm.HMAC256("sss")).build();
+        DecodedJWT jwt ;
+        try {
+            jwt = verifier.verify(token);
+        } catch (Exception e) {
+            log.error(e.toString());
+            return null;
+        }
+        Map<String, Claim> claims = jwt.getClaims();
+        String signId = claims.get("SIGN_ID").asString();
+        return signId;
     }
 
     @Test
-    public void test28(){
-        String string ="PIC0000639,PIC0000646,PIC0000645,PIC0000642,PIC0000643,PIC0000648";
+    public void test28() {
+        String string = "PIC0000639,PIC0000646,PIC0000645,PIC0000642,PIC0000643,PIC0000648";
         LinkedHashSet<String> imageIdSet = (LinkedHashSet<String>) StringUtils.commaDelimitedListToSet(string);
         Set<String> set = StringUtils.commaDelimitedListToSet(string);
-        Set<String> imageIdSet2 =  StringUtils.commaDelimitedListToSet(string);
+        Set<String> imageIdSet2 = StringUtils.commaDelimitedListToSet(string);
         String[] split = string.split(",");
         Set<String> strings = new LinkedHashSet<>(Arrays.asList(split));
-        if (strings.size()>=3){
+        if (strings.size() >= 3) {
             System.out.println("ss");
         }
         System.out.println(strings.contains("作者3"));
@@ -53,13 +94,13 @@ public class DemoTest_01 {
 
     @Test // 带逗号的字符串，根据逗号分割成多个字符串，删除或者add再生成新的用逗号分割的的数据返回
     public void test27() {
-        String string ="AUP,author,作者";
+        String string = "AUP,author,作者";
         String[] split = string.split(",");
         ArrayList<String> list = new ArrayList<>(Arrays.asList(split));
-        System.out.println("list:"+list);
+        System.out.println("list:" + list);
         list.remove("AUP");
         String string1 = StringUtils.collectionToCommaDelimitedString(list);
-        System.out.println("string1:"+string1);
+        System.out.println("string1:" + string1);
     }
 
     @Test

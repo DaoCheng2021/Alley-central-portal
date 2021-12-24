@@ -19,9 +19,9 @@
 ·规定时间持久化到sqlserver       定时任务
 6.hash类型的数据，可以做购物车。redis.key是userSoleId,redis.valus是map类型，map.key是商品soleId，map.value是数量。
 
+
+token是什么？怎么生成
 这个项目连接的公司的数据库，不知道Mysql能不能让两个电脑连接
-
-
 幂等校验
 悲观锁 乐观锁  redis分布式锁
 6.微服务
