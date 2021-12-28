@@ -14,11 +14,8 @@ import com.tts.cp.lib.visit.bean.ConfPerform;
 import com.tts.cp.lib.visit.bean.LibItemsMini;
 import com.tts.cp.lib.visit.bean.User;
 import com.tts.lib.utils.TextUtil;
-import freemarker.template.SimpleDate;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.StringUtils;
 
 import java.io.BufferedWriter;
@@ -43,10 +40,17 @@ public class DemoTest_01 {
 
     private SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd HH:mm");
 
-
+    @Test
+    public void test30(){
+        String[] sss={"aa","ss"};
+        Set<String>set=new HashSet<>();
+        set.addAll(Arrays.asList(sss));
+        set.add("www");
+        System.out.println(set);
+    }
 
     @Test
-    public void test01() {
+    public void test29() {
         Map<String, Object> map = new HashMap<>();
         //声明类型和方法
         map.put("alg", "HS256");
@@ -64,9 +68,9 @@ public class DemoTest_01 {
 
     //解析token
     private String analysisToken(String token) {
-        log.info("AnalysisToken Token:{}",token);
+        log.info("AnalysisToken Token:{}", token);
         JWTVerifier verifier = JWT.require(Algorithm.HMAC256("sss")).build();
-        DecodedJWT jwt ;
+        DecodedJWT jwt;
         try {
             jwt = verifier.verify(token);
         } catch (Exception e) {

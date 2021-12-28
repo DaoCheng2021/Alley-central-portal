@@ -1,6 +1,7 @@
 package com.tts.cp.lib.visit.controller;
 
 import com.tts.cp.lib.common.RedisUtil;
+import com.tts.cp.lib.visit.service.MultiThreadingService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +23,9 @@ public class RedisController {
     @Autowired
     private RedisUtil redisUtil;
 
+    @Autowired
+    private MultiThreadingService multiThreadingService;
+
     @GetMapping("/setRedis")
     private String setRedis(@RequestParam Map<String, Object> paramMap) {
         String nameKey = paramMap.get("nameKey").toString();
@@ -35,6 +39,14 @@ public class RedisController {
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("name",redisUtil.get("name").toString());
         return resultMap;
+    }
+
+    @GetMapping("/threan")
+    private String getThrean(){
+        log.info("主线程");
+        multiThreadingService.testMultiThreading();
+        log.info("主线程完毕");
+        return "完成";
     }
 
 }

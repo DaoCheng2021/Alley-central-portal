@@ -20,6 +20,9 @@
 6.hash类型的数据，可以做购物车。redis.key是userSoleId,redis.valus是map类型，map.key是商品soleId，map.value是数量。
 
 
+多线程
+发邮件 生成文本数据发邮件AbstractExportHandler
+多线程 发邮件
 token是什么？怎么生成
 这个项目连接的公司的数据库，不知道Mysql能不能让两个电脑连接
 幂等校验
@@ -35,4 +38,6 @@ Linux
 Jwt
 一个项目连接两个数据库，好像只能用传统dao，不能用jpa
 分布式项目
+springBoot注解
+mybatis puls
 

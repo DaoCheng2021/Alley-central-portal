@@ -4,18 +4,23 @@ import com.tts.cp.lib.common.RedisUtil;
 import com.tts.cp.lib.visit.bean.LibItemsMini;
 import com.tts.cp.lib.visit.bean.SpValidation;
 import com.tts.cp.lib.visit.service.CourseService;
+import com.tts.cp.lib.visit.service.MultiThreadingService;
 import com.tts.lib.web.StandardResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.*;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * @author Alley zhao created on 2021/9/3.
  */
 //于数据库交互，SQL，存储过程演示
+@Slf4j
 @SpringBootTest
 public class VisitCourseServiceTest {
 
@@ -27,6 +32,86 @@ public class VisitCourseServiceTest {
 
     @Autowired
     private RedisUtil redisUtil;
+
+    @Autowired
+    private MultiThreadingService multiThreadingService;
+
+    @Test
+    public void test01(){
+        System.out.println("aaa");
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("aaa");
+
+    }
+    @Test //让子线程休眠sleep,但是主线程会先执行完，所以
+    public void test32() {
+        log.info("主线程开始");
+        Thread thread = new Thread(() -> {
+            System.out.println("ss");
+            try {
+                Thread.currentThread().sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("ss");
+        });
+        thread.start();
+        log.info("主线程结束");
+    }
+
+    class LockTest {
+        private Lock lock = new ReentrantLock(); // ReentrantLock是Lock的子类
+
+        private void method(Thread thread) {
+            lock.lock(); // 获取锁对象
+            try {
+                System.out.println("线程名：" + thread.getName() + "获得了锁");
+                // Thread.sleep(2000);
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                System.out.println("线程名：" + thread.getName() + "释放了锁");
+                lock.unlock(); // 释放锁对象
+            }
+        }
+    }
+
+    @Test // 多线程
+    public void test31() {
+        LockTest lockTest = new LockTest();
+
+        // 线程1
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // Thread.currentThread()  返回当前线程的引用
+                lockTest.method(Thread.currentThread());
+            }
+        }, "t1");
+
+        // 线程2
+        Thread t2 = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                lockTest.method(Thread.currentThread());
+            }
+        }, "t2");
+
+        t1.start();
+        t2.start();
+    }
+
+    @Test// 多线程测试  @Async多线程注解
+    public void test30() {
+        log.info("主线程");
+        multiThreadingService.testMultiThreading();
+        log.info("主线程完毕");
+    }
 
     @Test //返回的数据是一个字段多条数据，可以用这样的List<String>来接收
     public void TestGetSpTestAlley3() {
@@ -61,15 +146,6 @@ public class VisitCourseServiceTest {
     }
 
     @Test
-    public void RedisTest01() {
-        LibItemsMini libItemsMini = new LibItemsMini();
-        libItemsMini.setVersionId("left");
-        libItemsMini.setItemId("right");
-        redisTemplate.opsForValue().set("libItemsMini", libItemsMini);
-        System.out.println(redisTemplate.opsForValue().get("libItemsMini"));
-    }
-
-    @Test
     public void RedisTest02() {
         Set<String> a = redisUtil.keys("libItemsMini22232");
         System.out.println(a);
@@ -84,57 +160,6 @@ public class VisitCourseServiceTest {
         String set2 = (String) redisUtil.get("set");
         boolean set1 = redisUtil.set("set4", "设置过期时间", -1);
         boolean set3 = redisUtil.set("set4", "设置过期时间", -1);
-    }
-
-    @Test
-    public void RedisTest03() {
-//        long set5 = redisUtil.incr("set5", 1);
-//        long set51 = redisUtil.incr("set5", 2);
-//        long set52 = redisUtil.decr("set5", 1);
-        Map map = new HashMap();
-        map.put("map1", "value");
-        map.put("map2", "value2");
-        map.put("map3", "value3");
-//        boolean map1 = redisUtil.hmset("map1", map);
-//        String stringt= (String) redisUtil.hget("map1","map2");
-//        Map<Object, Object> map1 = redisUtil.hmget("map1");
-//        boolean map2 = redisUtil.hmset("map2", map, 10000);
-//        boolean hset = redisUtil.hset("map3", "key", "value");
-//        boolean hset2 = redisUtil.hset("map3", "key2", "value2",1000);
-//        redisUtil.hdel("map3","key","key2");
-//        boolean b = redisUtil.hHasKey("map2", "he");
-//        boolean hset = redisUtil.hset("map2", "map4", 1);
-//        double hincr = redisUtil.hincr("map2", "map4", 3);
-//        double hdecr = redisUtil.hdecr("map2", "map4", 1);
-//        long l = redisUtil.sSet("set", "value1", "value2", "value3");
-//        Set<Object> set = redisUtil.sGet("set");
-//        boolean b = redisUtil.sHasKey("set", "value2");
-//        long l1 = redisUtil.sSetAndTime("set2", 100, "value1", "value2");
-//        long set2 = redisUtil.sGetSetSize("set");
-//        long l = redisUtil.setRemove("set", "value2", "value3");
-
-        List list = new ArrayList();
-        list.add("listData1");
-        list.add("listData2");
-        list.add("listData3");
-        list.add("listData4");
-        list.add("listData5");
-        List lis2 = new ArrayList();
-        list.add("listData1");
-        list.add("listData2");
-        list.add("listData3");
-        list.add("listData4");
-        list.add("listData5");
-        List finalList = new ArrayList();
-        finalList.add(list);
-        finalList.add(lis2);
-//        boolean list1 = redisUtil.lSet("list", list);
-//        List<Object> list2 = redisUtil.lGet("list", 1, 3);
-//        long list3 = redisUtil.lGetListSize("list");
-//        Object list5 = redisUtil.lGetIndex("list", -3);
-//        boolean list2 = redisUtil.lSet("list2", finalList);
-        long l = redisUtil.lRemove("list", 2, "listData5");
-        boolean s = redisUtil.set("卧龙", "出师未捷身先死，长使英雄泪满襟！");
     }
 
     @Test// 从Redis拿数据，没有数据就从数据库拿数据，顺便再存进去redis
@@ -175,12 +200,6 @@ public class VisitCourseServiceTest {
         String authorSoleId = "authorSoleId01";
         String result = courseService.addVote(userSoleId, authorSoleId);
         System.out.println(result);
-    }
-
-    @Test
-    public void test01() {
-//        redisUtil.lSet("li","li23");
-        redisUtil.lRemove("li", 1, "li23");
     }
 
 
