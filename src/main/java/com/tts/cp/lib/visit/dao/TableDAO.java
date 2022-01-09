@@ -11,7 +11,7 @@ import java.util.Set;
  */
 public interface TableDAO {
 
-    List<ConfPerform> getConfPerformAll(String brand, Set<String> templateId);
+    List<String> getConfPerformAll(String brand, Set<String> templateId);
 
     List<ConfPerform> getConfPerform(String templateId);
 

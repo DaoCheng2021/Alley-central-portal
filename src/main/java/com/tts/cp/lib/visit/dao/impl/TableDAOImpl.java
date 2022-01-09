@@ -37,15 +37,15 @@ public class TableDAOImpl implements TableDAO {
     private final static RowMapper<ConfPerform> CONF_PERFORM_ROW = BeanPropertyRowMapper.newInstance(ConfPerform.class);
     private final static RowMapper<LibTemplateScope> LIB_TEMPLATE_SCOPE_ROW_MAPPER = BeanPropertyRowMapper.newInstance(LibTemplateScope.class);
 
-    private final static String SQL_GET_CONF_PERFORM_ALL = "SELECT * FROM conf_perform WHERE brand=:brand AND template_id IN (:templateId)";
+    private final static String SQL_GET_CONF_PERFORM_ALL = "SELECT template_id FROM conf_perform WHERE brand=:brand AND template_id IN (:templateId)";
 
     @Override
-    public List<ConfPerform> getConfPerformAll(String brand, Set<String> templateId) {
+    public List<String> getConfPerformAll(String brand, Set<String> templateId) {
         Map map = new HashMap();
         map.put("brand", brand);
         map.put("templateId", templateId);
-        List<ConfPerform> confPerformList = namedParameterJdbcTemplate.query(SQL_GET_CONF_PERFORM_ALL, map, CONF_PERFORM_ROW);
-        return confPerformList;
+        List<String> templateIdList = namedParameterJdbcTemplate.queryForList(SQL_GET_CONF_PERFORM_ALL, map, String.class);
+        return templateIdList;
     }
 
     private final static String SQL_GET = "SELECT * FROM conf_perform where template_id in (?)";
@@ -59,7 +59,9 @@ public class TableDAOImpl implements TableDAO {
             return null;
         }
     }
+
     private final static String SQL_LIB_TEMPLATE_SCOPE = "SELECT * FROM lib_template_scope where template_id=? and brand = ? and country_code = ?";
+
     @Override
     public LibTemplateScope getLibTemplateScope(String templateId, String brand, String countryCode) {
         LibTemplateScope libTemplateScope = jdbcTemplate.queryForObject(SQL_LIB_TEMPLATE_SCOPE, LIB_TEMPLATE_SCOPE_ROW_MAPPER, templateId, brand, countryCode);

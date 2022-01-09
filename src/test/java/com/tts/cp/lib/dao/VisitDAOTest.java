@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public class VisitDAOTest {
 
     @Autowired
-    private CourseDAO  courseDAO;
+    private CourseDAO courseDAO;
 
     @Autowired
     private UserBrandCountryRepository countryRepository;
@@ -251,16 +251,15 @@ public class VisitDAOTest {
     @Test
     public void getConfPerformAll() {
         Set<String> set = new HashSet<>();
-//        set.add("_DFKFC");
-//        set.add("_DFPHI");
-//        set.add("ACE");
-        set.add("ACE_ALLEY2222");
-        List<ConfPerform> confPerformList = tableDAO.getConfPerformAll("brand", set);
-        System.out.println(confPerformList.size());
-        if (confPerformList.isEmpty()) {
+        set.add("10254");
+        set.add("123");
+        set.add("_DFKFC");
+        List<String> templateIdList = tableDAO.getConfPerformAll("PHI", set);
+        if (templateIdList.isEmpty()) {
             System.out.println("空");
         } else {
             System.out.println("有值");
+            System.out.println(templateIdList);
         }
     }
 

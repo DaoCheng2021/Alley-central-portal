@@ -41,15 +41,6 @@ public class DemoTest_01 {
     private SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd HH:mm");
 
     @Test
-    public void test30(){
-        String[] sss={"aa","ss"};
-        Set<String>set=new HashSet<>();
-        set.addAll(Arrays.asList(sss));
-        set.add("www");
-        System.out.println(set);
-    }
-
-    @Test
     public void test29() {
         Map<String, Object> map = new HashMap<>();
         //声明类型和方法
@@ -60,16 +51,23 @@ public class DemoTest_01 {
                 .withHeader(map)//头
                 .withClaim("SIGN_ID", "signId")//用户id
                 .withClaim("LOG_IN_DATE", "logInDate")//登录日期
-                .sign(Algorithm.HMAC256("sss"));//签名
-        System.out.println(token);
+                .sign(Algorithm.HMAC256("aweasadsadasd"));//签名
+        System.out.println("-----token:" + token);
         String s = this.analysisToken(token);
         System.out.println(s);
+
+    }
+
+
+    @Test
+    public void test01() {
+        Algorithm aweasadsadasd = Algorithm.HMAC256("aweasadsadasd");
     }
 
     //解析token
     private String analysisToken(String token) {
         log.info("AnalysisToken Token:{}", token);
-        JWTVerifier verifier = JWT.require(Algorithm.HMAC256("sss")).build();
+        JWTVerifier verifier = JWT.require(Algorithm.HMAC256("aweasadsadasd")).build();
         DecodedJWT jwt;
         try {
             jwt = verifier.verify(token);
@@ -122,6 +120,11 @@ public class DemoTest_01 {
         }
         //list 如果null 返回空的new ArrayList();
         List<String> list3 = Optional.ofNullable(list).orElse(new ArrayList<>());
+        System.out.println(list3);
+        Map<String, String> map = new HashMap<>();
+//        String name = map.get("name");
+        String name = Optional.ofNullable(map.get("name")).orElse("");
+        System.out.println(name); // 如果map.get(name)没值，就给"" 空
     }
 
     @Test // Stream流
@@ -376,7 +379,7 @@ public class DemoTest_01 {
         System.out.println(" sad wA ".replaceAll("\\s", "").toUpperCase());//全大写
         System.out.println("========");
         //判空，StringUtils.hasText("") 如果是空就是false，如果有值就是true
-        if (StringUtils.hasText("aa")) {
+        if (StringUtils.hasText("  a")) {
             System.out.println("不是空");
         } else {
             System.out.println("是空");

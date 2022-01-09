@@ -29,7 +29,7 @@ public class EmailTest {
     @Test
     public void TestTimedTaskMinute() {
         Map<String, Object> map = new HashMap<>();
-        map.put("emailKey", "UnapprovedIconEmail");
+        map.put("emailKey", "TwoThreadEmailHelper");
         mailService.sendEmail(map);
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -36,19 +37,76 @@ public class VisitCourseServiceTest {
     @Autowired
     private MultiThreadingService multiThreadingService;
 
-    @Test
-    public void test01(){
-        System.out.println("aaa");
+
+
+/*
+创建多线程的方法，继承Thread.run & 实现Runnable.run 注解方式：给启动类加@EnableAsync注解，配置线程池，再给需要创建多线程的方法上面加@Async
+解决多线程线程安全的问题，使用synchronized关键字。或者使用Lock锁手动获取和释放锁
+
+* */
+    private Lock lock = new ReentrantLock(); //创建Lock锁
+
+    private void method(Thread thread) {
+        lock.lock(); // 获取锁
         try {
-            Thread.sleep(10000);
+            if (lock.tryLock(10, TimeUnit.SECONDS)) {
+                try {
+                    System.out.println("线程名：" + thread.getName() + "获取了锁");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    System.out.println("线程名：" + thread.getName() + "释放了锁");
+                    lock.unlock(); // 释放锁
+                }
+            }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println("aaa");
+    }
+
+    @Test
+    public void test34() {
+        for (int i = 0; i < 10; i++) {
+            Thread thread1 = new Thread(() -> method(Thread.currentThread()));
+            Thread thread2 = new Thread(() -> method(Thread.currentThread()));
+            thread1.start();
+            thread2.start();
+        }
+    }
+
+    Integer count = 0;
+
+    public synchronized void testCount() {
+        count++;
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println(count);
+    }
+
+    @Test
+    public void test33() {
+        for (int i = 0; i < 10; i++) {
+            Thread thread1 = new Thread(() -> {
+                testCount();
+            });
+            thread1.start();
+            Thread thread2 = new Thread(() -> {
+                testCount();
+            });
+            thread2.start();
+            testCount();
+        }
 
     }
-    @Test //让子线程休眠sleep,但是主线程会先执行完，所以
+
+    //让子线程休眠sleep,但是主线程会先执行完，所以控制器值只打印主线程的东西，没等子线程sleep完就结束Junit了，最终不会显示子线程的休眠后的东西。
+    //解决 要不测试时候启动此项目直接用浏览器访问这个Collection方法调用这个方法，要不也给主线程Sleep一下
+    @Test
     public void test32() {
+        //多线程 Thread
         log.info("主线程开始");
         Thread thread = new Thread(() -> {
             System.out.println("ss");
@@ -59,51 +117,8 @@ public class VisitCourseServiceTest {
             }
             System.out.println("ss");
         });
-        thread.start();
+        thread.start(); // 通过start()来启动线程
         log.info("主线程结束");
-    }
-
-    class LockTest {
-        private Lock lock = new ReentrantLock(); // ReentrantLock是Lock的子类
-
-        private void method(Thread thread) {
-            lock.lock(); // 获取锁对象
-            try {
-                System.out.println("线程名：" + thread.getName() + "获得了锁");
-                // Thread.sleep(2000);
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                System.out.println("线程名：" + thread.getName() + "释放了锁");
-                lock.unlock(); // 释放锁对象
-            }
-        }
-    }
-
-    @Test // 多线程
-    public void test31() {
-        LockTest lockTest = new LockTest();
-
-        // 线程1
-        Thread t1 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                // Thread.currentThread()  返回当前线程的引用
-                lockTest.method(Thread.currentThread());
-            }
-        }, "t1");
-
-        // 线程2
-        Thread t2 = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                lockTest.method(Thread.currentThread());
-            }
-        }, "t2");
-
-        t1.start();
-        t2.start();
     }
 
     @Test// 多线程测试  @Async多线程注解
