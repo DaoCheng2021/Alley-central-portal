@@ -17,4 +17,12 @@ public class User {
     private String password;
     private int id;
 
+    // 类里面某个字段特别长还没有重要信息，可以重写toString来手动去点这个长的字段
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }

@@ -5,8 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tts.cp.lib.visit.bean.ConfPerform;
 import com.tts.cp.lib.visit.bean.LibItemsMini;
 import com.tts.cp.lib.visit.bean.LibTemplateScope;
+import com.tts.cp.lib.visit.bean.User;
 import com.tts.cp.lib.visit.dao.*;
 import lombok.extern.slf4j.Slf4j;
+import net.sf.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -37,6 +39,15 @@ public class VisitDAOTest {
     @Autowired
     private LibItemsMiniRepository libItemsMiniRepository;
 
+    @Test // 实体类转json，jsonString获取里面的数据
+    public void TestFindByTemplateId() throws JsonProcessingException {
+        ConfPerform confPerform = confPerformRepository.findByTemplateId("PPAA342081");
+        String confPerformJSON = new ObjectMapper().writeValueAsString(confPerform); // 实体转JSON
+        JSONObject jsonObject = JSONObject.fromObject(confPerformJSON); //json获取里面的数据
+        String templateId = jsonObject.getString("templateId"); // 获取json里面templateId的数据
+
+    }
+
     @Test// DAO的sql代码用in来查询返回的结果会有顺序的问题，这个dao这样写避免了顺序的问题
     public void TestGetLibItemsMiniItems() {
         Set set = new HashSet();
@@ -47,6 +58,7 @@ public class VisitDAOTest {
         set.add("PIC0000636");
         String itemIdString = StringUtils.collectionToCommaDelimitedString(set);
         List<LibItemsMini> libItemsMiniItems = courseDAO.getLibItemsMiniItems("AUP.MST.ACE.ATT.2020.01", set, itemIdString);
+//        libItemsMiniItems.stream().filter()
     }
 
     @Test // 如果返回结果只有两个字段、三个字段，可以用这样的DAO 返回类型是List<Map<String,Object>，DAO层用new ColumnMapRowMapper() 类型的接收

@@ -35,4 +35,6 @@ public interface ConfPerformRepository extends JpaRepository<ConfPerform, String
 
     List<ConfPerform> findAllByBrand(String brand);
 
+    ConfPerform findByTemplateId(String templateId);
+
 }

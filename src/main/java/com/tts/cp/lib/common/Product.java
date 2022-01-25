@@ -18,6 +18,7 @@ public class Product {
     @JsonProperty("IdId") // 此注解用在属性上，作用于在序列化的时候把Name转换成另外一个Name。Name不规范，驼峰映射有错误使用。
     private int id;
     private int num;
+    //ew BigDecimal(100)
     private BigDecimal price;
     private String name;
     private String category;

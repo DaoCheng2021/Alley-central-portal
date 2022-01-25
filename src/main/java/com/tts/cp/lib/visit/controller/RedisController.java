@@ -1,17 +1,17 @@
 package com.tts.cp.lib.visit.controller;
 
+import com.tts.cp.lib.common.Product;
 import com.tts.cp.lib.common.RedisUtil;
 import com.tts.cp.lib.email.service.MailService;
+import com.tts.cp.lib.visit.bean.User;
 import com.tts.cp.lib.visit.service.MultiThreadingService;
 import com.tts.lib.web.StandardResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -63,6 +63,22 @@ public class RedisController {
         mailService.sendEmail(paramMap);
         log.info("sendEmail End");
         return "发送成功";
+    }
+
+    /*
+    * @RequestBody注解，如果前端传过来的实体类是JSON类型的，必须要加此注解，如果是params类型的可以不用
+    * 一个接口里面@RequestBody只能有一个，@RequestParam 可以有多个。
+    * */
+    @RequestMapping("/getUser2")
+    private String getUser2(@RequestBody User user, @RequestParam(value = "listName") List<String> listName) {
+        System.out.println(user.toString());
+        return user.toString() + "-listName:" + listName.toString();
+    }
+
+    @RequestMapping("/getUser3")
+    private String getUser3(@RequestBody Product product) {
+        System.out.println(product);
+        return product.toString();
     }
 
 }

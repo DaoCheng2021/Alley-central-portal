@@ -15,6 +15,7 @@ import com.tts.cp.lib.visit.bean.LibItemsMini;
 import com.tts.cp.lib.visit.bean.User;
 import com.tts.lib.utils.TextUtil;
 import lombok.extern.slf4j.Slf4j;
+import net.sf.json.JSONObject;
 import org.junit.Test;
 import org.springframework.util.StringUtils;
 
@@ -40,6 +41,89 @@ public class DemoTest_01 {
 
     private SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd HH:mm");
 
+    // 静态类变量和类变量会自动设置初始值，用final修饰的类变量或者局部变量必须手动赋值。
+    static int in;
+
+    @Test
+    public void test01() {
+        Set<String> set = new HashSet<>();
+        set.add("aa");
+        set.add("aa1");
+        set.add("aa2");
+        System.out.println(set.toString());
+    }
+
+    @Test
+    public void test33() {
+        String string = "111";
+        //字符串转int类型方法
+        int i = Integer.valueOf(string).intValue();
+        int userId = Integer.parseInt(string);
+        System.out.println(i + userId);
+    }
+
+    @Test // 取json字符串类型的数据
+    public void test32() {
+        String string = "{\n" +
+                "\t\"limitPicklistScoringByStandardBizLevel\": false,\n" +
+                "\t\"Picklist\": {\n" +
+                "\t\t\"fields\": {\n" +
+                "\t\t\t\"desc0\": true,\n" +
+                "\t\t\t\"desc1\": true,\n" +
+                "\t\t\t\"desc2\": true,\n" +
+                "\t\t\t\"answerType\": true,\n" +
+                "\t\t\t\"scoring\": true,\n" +
+                "\t\t\t\"bizType\": true,\n" +
+                "\t\t\t\"photoRequired\": true,\n" +
+                "\t\t\t\"photoCommentRequired\": true,\n" +
+                "\t\t\t\"photoCommentType\": true,\n" +
+                "\t\t\t\"referencePhotos\": true\n" +
+                "\t\t},\n" +
+                "\t\t\"branchFields\": {\n" +
+                "\t\t\t\"desc0\": true,\n" +
+                "\t\t\t\"desc1\": true,\n" +
+                "\t\t\t\"desc2\": true\n" +
+                "\t\t}\n" +
+                "\t},\n" +
+                "\t\"enableAppliedScopeSelection\": true,\n" +
+                "\t\"enableDataBranch\": false\n" +
+                "}";
+        JSONObject jsonObject = JSONObject.fromObject(string);
+        String enable = jsonObject.getString("enableAppliedScopeSelection");
+    }
+
+    @Test
+    public void test31() {
+        int i = 5;
+//        while (i > 1) {
+//            System.out.println(i);
+//            i--;
+//        }
+        do {   // do while 循环，先执行do里面的代码，然后再进行判断。也就是说不管怎么样都会至少执行一次do里面的代码
+            System.out.println(i);
+            i--;
+            if (i == 3) {
+                continue;
+            }
+        } while (i > 1);
+    }
+
+    @Test // 手写冒泡排序，最大的数字放到最后面，对比一次之后每次对比的数据从最末尾的数据往前进一位（nums.length;--）
+    public void test30() {
+        int nums[] = {1, 34, 56, 8, -32, 7, -9, 236, 235};
+        for (int y = 0; y < nums.length; y++) {
+            for (int x = 1; x < nums.length - y; x++) {
+                if (nums[x - 1] > nums[x]) { // 降序和升序换一下大于小于
+//                if (nums[x - 1] < nums[x]) {
+                    int temporary = nums[x];
+                    nums[x] = nums[x - 1];
+                    nums[x - 1] = temporary;
+                }
+            }
+        }
+        System.out.println(Arrays.toString(nums));
+    }
+
     @Test
     public void test29() {
         Map<String, Object> map = new HashMap<>();
@@ -55,13 +139,6 @@ public class DemoTest_01 {
         System.out.println("-----token:" + token);
         String s = this.analysisToken(token);
         System.out.println(s);
-
-    }
-
-
-    @Test
-    public void test01() {
-        Algorithm aweasadsadasd = Algorithm.HMAC256("aweasadsadasd");
     }
 
     //解析token
@@ -355,7 +432,7 @@ public class DemoTest_01 {
         }
     }
 
-    @Test
+    @Test // JSON 转字符串
     public void test13() {
         System.out.println(String.valueOf(1));
         System.out.println(!StringUtils.hasText(""));
@@ -364,13 +441,6 @@ public class DemoTest_01 {
         for (Map.Entry<String, String> stringStringEntry : map.entrySet()) {
             System.out.println(stringStringEntry.getKey() + ":" + stringStringEntry.getValue());
         }
-    }
-
-    @Test
-    public void test12() {
-        String jsonStr = "{\"word\":\"这里是json串\"}"; //JSON转map
-        Map map = JSON.parseObject(jsonStr, Map.class);
-        System.out.println();
     }
 
     @Test
@@ -543,8 +613,10 @@ public class DemoTest_01 {
         System.out.println(Math.abs(-3)); //负数返回绝对值，正数不变
         /*
          * boolean和Boolean的区别：boolean是基本数据类型，存在于栈中，只用true和false。Boolean是包装类型，存在于堆中，有true和false还有null
-         * 八大基本类型：1.byte 2.short 3.int 4.long 5.float 6.double 7.char 8 boolean
-         *
+         八大基本类型：1.byte 2.short 3.int 4.long 5.float 6.double 7.char 8 boolean
+         包装类型：Byte Short Integer Long Float Double Character Boolean
+         整数(字节)：Byte/8 Short/16 Int/32 Long/64 浮点：Float/32 Double/64 布尔：Boolean/1 字符类型：Char/16
+         String被final修饰过，所以不能被继承。Integer、Character等包装类型也不能被继承
          * */
     }
 
@@ -587,13 +659,6 @@ public class DemoTest_01 {
 //        }
 //        System.out.println("synchronized 2 结束");
 //    }
-
-    @Test
-    public void test03() {
-        String json = "{\"word\":\"这里是json串\"}";
-        System.out.println(JSON.parseObject(json, Map.class));
-
-    }
 
     @Test
     public void test02() {

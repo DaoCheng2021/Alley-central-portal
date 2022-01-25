@@ -73,6 +73,10 @@ public class LibItemsMini {
     @JsonDeserialize(using = ObjectToStringDeserializer.class)
     private String config;
 
+    /*
+        @JsonRawValue这个注解，后端String类型数据，前端需要Object类型的数据，这个注解加上可以转换。
+        @JsonDeserialize(using=ObjectToStringDeserializer.class)这个注解是为了前端的Object类型的数据传到后端用String类型接收
+    * */
     @JsonRawValue
     @JsonDeserialize(using = ObjectToStringDeserializer.class)
     private String photoConfig;

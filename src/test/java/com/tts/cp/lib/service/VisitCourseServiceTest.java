@@ -12,7 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -38,12 +41,30 @@ public class VisitCourseServiceTest {
     private MultiThreadingService multiThreadingService;
 
 
+    //
+//    public String createJWT(String id,String subject){
+//        //加密算法
+//        SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
+//        //设置时间
+//        Calendar calendar = Calendar.getInstance();
+//        Date date = calendar.getTime();
+//        //过期时间
+//        calendar.setTimeInMillis(date.getTime());
+//        Date expirationDate = calendar.getTime();
+//        SecretKey secretKey = generalKey();
+//        JwtBuilder builder = Jwts.builder()
+//                .setId(id)
+//                .setIssuedAt(date)
+//                .setSubject(subject)
+//                .signWith(signatureAlgorithm,secretKey)
+//                .setExpiration(expirationDate);
+//        return builder.compact();
+//    }
+    /*
+    创建多线程的方法，继承Thread.run & 实现Runnable.run 注解方式：给启动类加@EnableAsync注解，配置线程池，再给需要创建多线程的方法上面加@Async
+    解决多线程线程安全的问题，使用synchronized关键字。或者使用Lock锁手动获取和释放锁
 
-/*
-创建多线程的方法，继承Thread.run & 实现Runnable.run 注解方式：给启动类加@EnableAsync注解，配置线程池，再给需要创建多线程的方法上面加@Async
-解决多线程线程安全的问题，使用synchronized关键字。或者使用Lock锁手动获取和释放锁
-
-* */
+    * */
     private Lock lock = new ReentrantLock(); //创建Lock锁
 
     private void method(Thread thread) {
@@ -216,6 +237,5 @@ public class VisitCourseServiceTest {
         String result = courseService.addVote(userSoleId, authorSoleId);
         System.out.println(result);
     }
-
 
 }
