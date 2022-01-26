@@ -21,9 +21,11 @@
 多线程实现方式 继承Threna 实现Runnable 线程池注解方式 多线程发邮件 @Async注解使用 保证线程安全 synchronized关键字 Lock锁
 DAO层那些代码，各种情况都试一次
 手写冒泡排序
+token是什么？怎么生成 Jwt是什么 --JWTCreateVerify这个类
 
 你只管努力，剩下的交给天意
-token是什么？怎么生成 Jwt是什么
+不要假装很努力，因为结果不会陪着你演戏
+这么年轻，怎么睡的着
 cookie
 异常的区别
 存储过程 调用 触发器 都测试一次
@@ -45,3 +47,4 @@ Linux
 springBoot注解
 mybatis puls
 项目启动，前端页面访问Collection接口，后台会报表单重复提交的问题
+过年在家的学习任务，还有刷面试题

@@ -10,6 +10,8 @@ import com.tts.cp.lib.common.StandardAlley;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -63,9 +65,9 @@ public class JWTCreateVerify {
                 .withExpiresAt(calendar.getTime())
                 .sign(Algorithm.HMAC256(SECRET));
         return JWTToken;
-
     }
 
+    // 验证JWT
     public StandardAlley verifyJWT(String JWTToken) {
         StandardAlley sa = new StandardAlley();
         try {
@@ -106,7 +108,7 @@ public class JWTCreateVerify {
 
     @Test
     public void TestVerifyJWT() {
-        StandardAlley sa = verifyJWT("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyTmFtZSI6Im5hbWUiLCJleHAiOjE2NDI2NTA1MjksInVzZXJJZCI6IjEifQ.PdcsCliAEumYGlolSlA6UvR_ZYWMEVHyij5bCMbgatwqqq");
+        StandardAlley sa = verifyJWT("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyTmFtZSI6Im5hbWUiLCJleHAiOjE2NDMxNjU4MjYsInVzZXJJZCI6IjEifQ.oGAm1cv__raoUcInmcFA-1NYFqNHzeDMBXxfzbRa6ZY");
         // 判断返回的Success是什么值，true正常返回，false让用户重新登录
         Boolean success = sa.getSuccess();
         System.out.println(success);
@@ -125,4 +127,9 @@ public class JWTCreateVerify {
         System.out.println(userId);
     }
 
+    @Test
+    public void test01(HttpServletRequest request){
+        Cookie[] cookies = request.getCookies();
+
+    }
 }
