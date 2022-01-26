@@ -1,6 +1,9 @@
 package com.tts.cp.lib.visit.controller;
 
 import com.tts.cp.lib.common.RedisUtil;
+import com.tts.cp.lib.email.service.MailService;
+import com.tts.cp.lib.visit.service.MultiThreadingService;
+import com.tts.lib.web.StandardResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +25,12 @@ public class RedisController {
     @Autowired
     private RedisUtil redisUtil;
 
+    @Autowired
+    private MultiThreadingService multiThreadingService;
+
+    @Autowired
+    private MailService mailService;
+
     @GetMapping("/setRedis")
     private String setRedis(@RequestParam Map<String, Object> paramMap) {
         String nameKey = paramMap.get("nameKey").toString();
@@ -33,8 +42,27 @@ public class RedisController {
     @GetMapping("/getName")
     private Map<String, Object> getName(@RequestParam Map<String, Object> paramsMap) {
         Map<String, Object> resultMap = new HashMap<>();
-        resultMap.put("name",redisUtil.get("name").toString());
+        resultMap.put("name", redisUtil.get("name").toString());
         return resultMap;
+    }
+
+    @GetMapping("/threan")
+    private String getThrean() {
+        log.info("主线程");
+        multiThreadingService.testMultiThreading();
+        log.info("主线程完毕");
+        return "完成";
+    }
+
+    //前端调用接口，多线程发邮件。主线程先返回，子线程发邮件  @Async注解
+    //  http://localhost:8090/redisController/sendEmail?emailKey=TwoThreadEmailHelper
+    @GetMapping("/sendEmail")
+    private String sendEmail(@RequestParam Map<String, Object> paramMap) {
+        log.info("sendEmail");
+        Map<String, Object> resultMap = new HashMap<>();
+        mailService.sendEmail(paramMap);
+        log.info("sendEmail End");
+        return "发送成功";
     }
 
 }

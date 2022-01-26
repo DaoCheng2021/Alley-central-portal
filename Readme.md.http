@@ -7,20 +7,25 @@
 
 任务需求：
 做一个关于redis的需求
-1.根据唯一id来redis查数据，如果redis没有数据就去数据库查，同时把数据转成json放进redis，方便下次查数据
-2.根据id.update数据，更新数据库的数据之后，在redis把old的数据替换成new Data
-3.redis的计数器/投票功能: 用redsiTemplate的increment来计数,并且设置每个用户十分钟只能投票一次，过了十分钟再投票第二次
-4.限流，根据用户ip作为id，访问一此添加一个int类型的value，到一定数量返回false
-5.点赞
-·某篇文章点赞数                  redis的value是HashMap<String,Set>类型,Map.key-String是articleId,Map.value-Set是用户id，这样一个用户只能点赞一次
-·用户所有文章的点赞总数           给每个author都专门创建一个Map<String,Int>类型的计数数据，每次author有文章点赞，就给计数器的value+1
-·用户点赞的文章                  跟某篇文章点赞数大同小异
-·用户取消点赞                    根据用户id删除authorId里的点赞，和总点赞数，并且删除用户自身点赞记录
-·规定时间持久化到sqlserver       定时任务
-6.hash类型的数据，可以做购物车。redis.key是userSoleId,redis.valus是map类型，map.key是商品soleId，map.value是数量。
+ 1.根据唯一id来redis查数据，如果redis没有数据就去数据库查，同时把数据转成json放进redis，方便下次查数据
+ 2.根据id.update数据，更新数据库的数据之后，在redis把old的数据替换成new Data
+ 3.redis的计数器/投票功能: 用redsiTemplate的increment来计数,并且设置每个用户十分钟只能投票一次，过了十分钟再投票第二次
+ 4.限流，根据用户ip作为id，访问一此添加一个int类型的value，到一定数量返回false
+ 5.点赞
+ ·某篇文章点赞数                  redis的value是HashMap<String,Set>类型,Map.key-String是articleId,Map.value-Set是用户id，这样一个用户只能点赞一次
+ ·用户所有文章的点赞总数           给每个author都专门创建一个Map<String,Int>类型的计数数据，每次author有文章点赞，就给计数器的value+1
+ ·用户点赞的文章                  跟某篇文章点赞数大同小异
+ ·用户取消点赞                    根据用户id删除authorId里的点赞，和总点赞数，并且删除用户自身点赞记录
+ ·规定时间持久化到sqlserver       定时任务
+ 6.hash类型的数据，可以做购物车。redis.key是userSoleId,redis.valus是map类型，map.key是商品soleId，map.value是数量。
+多线程实现方式 继承Threna 实现Runnable 线程池注解方式 多线程发邮件 @Async注解使用 保证线程安全 synchronized关键字 Lock锁
+DAO层那些代码，各种情况都试一次
 
-
+存储过程 调用 触发器 都测试一次
+触发器 BEGIN TRAN  COMMIT TRAN
 token是什么？怎么生成
+接口和类的区别
+Cookic
 这个项目连接的公司的数据库，不知道Mysql能不能让两个电脑连接
 幂等校验
 悲观锁 乐观锁  redis分布式锁
@@ -35,4 +40,6 @@ Linux
 Jwt
 一个项目连接两个数据库，好像只能用传统dao，不能用jpa
 分布式项目
-
+springBoot注解
+mybatis puls
+项目启动，前端页面访问Collection接口，后台会报表单重复提交的问题
