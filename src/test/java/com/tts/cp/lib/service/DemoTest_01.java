@@ -14,11 +14,8 @@ import com.tts.cp.lib.visit.bean.ConfPerform;
 import com.tts.cp.lib.visit.bean.LibItemsMini;
 import com.tts.cp.lib.visit.bean.User;
 import com.tts.lib.utils.TextUtil;
-import freemarker.template.SimpleDate;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.StringUtils;
 
 import java.io.BufferedWriter;
@@ -43,7 +40,18 @@ public class DemoTest_01 {
 
     private SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd HH:mm");
 
-
+    @Test
+    public void test() throws Exception {
+        /*
+        * 煮豆燃豆萁，豆在釜中泣。本是同根生，相煎何太急。为什么光标不跟着打字的走
+        *煮豆燃豆萁
+        * 这个光标不跟我走 真烦人本是同根生
+        *
+        *
+        *
+        * 相煎何太急
+        * */
+    }
 
     @Test
     public void test01() {
@@ -51,22 +59,33 @@ public class DemoTest_01 {
         //声明类型和方法
         map.put("alg", "HS256");
         map.put("typ", "JWT");
-
         String token = JWT.create()
                 .withHeader(map)//头
                 .withClaim("SIGN_ID", "signId")//用户id
                 .withClaim("LOG_IN_DATE", "logInDate")//登录日期
-                .sign(Algorithm.HMAC256("sss"));//签名
-        System.out.println(token);
-        String s = this.analysisToken(token);
-        System.out.println(s);
+                .sign(Algorithm.HMAC256("这是一个签名adhasuidahnsidasn"));//签名
+        System.out.println("token-----" + token);
+    }
+
+    @Test // 生成token
+    public void test2() throws Exception {
+        Map<String, Object> map = new HashMap<>();
+        //声明类型和方法
+        map.put("alg", "HS256");
+        map.put("typ", "JWT");
+        String token = JWT.create()
+                .withHeader(map)
+                .withClaim("SIGN_ID", "signId")
+                .withClaim("LOG_IN_DATE", "logInDate")
+                .sign(Algorithm.HMAC256("这是签名"));
+        System.out.println("token:" + token);
     }
 
     //解析token
     private String analysisToken(String token) {
-        log.info("AnalysisToken Token:{}",token);
-        JWTVerifier verifier = JWT.require(Algorithm.HMAC256("sss")).build();
-        DecodedJWT jwt ;
+        log.info("AnalysisToken Token:{}", token);
+        JWTVerifier verifier = JWT.require(Algorithm.HMAC256("这是一个签名adhasuidahnsidasn")).build();
+        DecodedJWT jwt;
         try {
             jwt = verifier.verify(token);
         } catch (Exception e) {
