@@ -10,11 +10,6 @@ spring:
       ddl-auto: none
     show-sql: true
 
-#  mail:
-#    username: 1312476398@qq.com
-#    password: valuvtydhvwmieeg
-#    host: smtp.qq.com
-#    port: 80
 #发邮件配置文件
   mail:
     default-encoding: UTF-8
@@ -31,6 +26,11 @@ spring:
             class: javax.net.ssl.SSLSocketFactory
           starttls:
             enable: false
+
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    daemonize: yes
 
 icon:
   email:
@@ -52,9 +52,9 @@ icon:
 system-setting: # Asset_icon表的图片链接，需要拼接
   picture-url: http://dev-services.easternphoenix.com/cp-icon/image
 
-
 server:
-  port: 8081
+  port: 8090
+
 
 options:
   test:
@@ -91,5 +91,3 @@ routine:
       template:
         common: pest_walk_summary_arial.jasper
         my_MM: pest_walk_summary.jasper
-
-
