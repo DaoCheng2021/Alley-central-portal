@@ -1,0 +1,713 @@
+--------------11 24
+           Account: alley.zhao 11月10入职了。
+           Password:  !e2aXBnc
+exec 存储列名  数据条件
+------------11 25 
+CouchDB(靠吃)
+-----------11 26 
+存储过程游标 存储过程学习
+------------11 27 
+foreach lambda   存储过程看懂
+11 30 
+第一次接口总结
+	业务逻辑没有处理好，判断空值有问题。@Transient注解运用不熟，(表示这个字段不用映射数据
+字段，orm框架会忽略该字段)。还有@JsonFormat（shape，pattern） 对公司定义的StandardResponse类不熟悉
+statusCode状态码 statusDesc状态信息  success是否成功 Date 数据
+	CrudRepository
+	StringBuilde
+----------------12 1
+	HttpServletRequest里getAttibute(String)从request域中获取name属性的属性值
+	使用 git clone -b dev 代码库地址 
+----------------12 2 
+	conversion配置文件转移到creation
+	开温大 易问 
+	create/delete/finish perform 都需要跟event服务交互   用一个办法通知calendar服务
+	leader(里的)app conversion配置和设置转移到create
+----------------12 3 
+	trigger触发器
+	不慌  触发器关键字 
+CREATE TRIGGER 触发器名字
+ON 触发器表
+FRO UPDATE或delete或insert 什么操作触发触发器
+AS
+IF UPDATE(表的列)  如果表这列更新才会操作下面
+BEGIN
+	DECLARE @ID VARCHAR(50)
+	SQL语句
+END
+	select * from DELETED 修改前的数据表  INSERTED修改后的数据表
+row_number()
+触发器已经定义的字符属性调用的话写在右边，：name=@in_nam
+top 1 + order by（id列） desc 获取数据id最大的一条 
+begin end开始结束       if else    
+if not update(列) return;这列没有更改就返回，不走下面sql 
+数据库test_yum_leader_2 表 eval_perform_20200419触发器
+---------------12 7
+//            conn.setRequestProperty("accept", "*/*");
+//            conn.setRequestProperty("connection", "Keep-Alive");
+//            conn.setRequestProperty("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)");
+//            conn.setDoOutput(true);
+//            conn.setDoInput(true);
+学习HTTP发送get请求获取url带参数   配置文件yaml定义数据，在类中调用，@value("{$....}")
+学历拉姆达还有正则
+--------------12 8
+学习Spring Cloud Stream消息驱动发消息
+
+------------12 9
+ROW_NUMBER() OVER()给字段添加序号 配合order by使用
+jdbctemplate 和NamedParameterJdbcTemplate
+工作能用NamedParameterJdbcTemplate就不要用JdbcTemplate
+回去学lambda表达式还有正则表达式 函数式编程
+---------------12 10 
+Echo的命名规范 太规范了。学英语单词
+TaskExecutor线程池  创建线程池的方法 Runnable,Thread,Callable,Executor
+进步 当你觉得为时已晚。
+线程池的创建TaskExecutor ThreadPoolTaskExecutor实现类
+函数式接口，一个接口里只包含一个方法
+------------12 14 
+sqlserver 关键字带[]中括号
+-----------12 15
+项目做token的管理
+1注册  用传过来的参数生成token，用他们自己的过期时间。有些是app，时间长一些，有些是网页。systemId是每个系统的唯一标识。没有传的话用配置文件里默认的过期时间。存进redis里，key用systemId和tokenId组成，value是他们穿过过来的 singInInfo
+根据他们传的过期时间计算过期时间，和当前的时间计算出来现在过期时间剩余多少。允许同一个systemId和signid同时过来，如果我们已经有token的话就会返回给他，就是允许一个用户登录多个终端服务器。
+2注销 
+3验证 他们传过来token，我再进行验证token，把存在token里的signInInfo签名信息取出来验证，再返回这个signininfo签名信息给服务器
+每个系统都会传自己的有效期，app时间长，网页版时间短。根据传过来的时间设置。
+如果没有过期时间就用自己默认的时间。根据传过来的数据生成token，把token存到redis里面去。 他们服务传token过来，我再进行验证
+token-service项目。专门做token生成验证删除，token存在redis。三个接口
+1.注册，生成token
+	用户传过过来 1.服务器唯一id 2.用户唯一id 3.过期时间 4.携带的数据。 token根据用户唯一id和登录时间生成，redis的key是服务器唯一id+用户唯一id拼接。value包含过期时间，token，登录时间，携带的数据。如果同一个服务器id和用户id登录的话，就检查token过期时间大于五分钟直接用已经存在的token给他。反之直接生成新的返回
+2.验证token，返回redis保存的数据	
+	用户传过来服务器唯一id和token，先解密token拿到里面的用户唯一id。再组成redis的key获取value里面的过期时间，没有过期的话就返回保存的数据。反之删除token，返回200
+3.删除token
+	用户传过来服务器id和token，先解密再组成redis的key，进行删除
+
+systemId（塞斯瞪）制度  userId=signId 塞因id
+systemId是系统的唯一标识 userId是什么？
+--------12 22 
+基本功能实现了，测试
+TokenServiceImpl 166 代码Mistake(错误)美斯忒特 单词写错
+private final static String CHANG="chang";
+学习目标反射 
+jedis每次连接都会new对象，浪费资源。Jedispool或者reidsTemplate
+---------12 23 
+jdiesPool学习
+@Autowired
+RedisTemplate<String,String>  1.Calendar 2.Date.before(时间) 3. 
+POSTMAN学习+反射
+反射. 反射就是在运行时才知道要操作的类是什么，并且可以在运行时获取类的完整构造，并调用对应的方法。 反射机制就是在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法。对于任意一个对象，都能够调用它的任意方法和属性。这种动态获取信息以及动态调用对象方法的功能称为反射机制。
+ 流程1.获取类的Class对象实例 2.根据Class对象实例获取Constructor对象 3.使用Constructor对象的newInstance方法获取反射对象  4.获取方法的Method对象  5.利用invoke方法调用方法
+mockmvc就是Collertion层的单元测试，正常的单元测试时加在service上
+------12 24 
+断言，判断某一时刻的值和预期的值是否一样。
+--------12 25
+mockmvc加断言加@Autowired问题的解决
+--------12 28
+开发总结
+1 规范的命名，错别字 2 各种api先看再用 3 不会的技术 4   IDEA代码名称下面的波浪线就是 单词报错   
+
+TokenService 199 209 133  
+==和equals学习
+基本数据类型 byte short int long char float double boolean 用==比较的是他们的值。
+==基本类型的变量就直接比较的是值是否相等，引用类型比较的是地址值
+equals方法不能比较基本类型变量。如果没有对equals重写就是默认比较的地址值。String Date 等类对equals重写了就是比较的对象的值是否相等。
+ThreadLocal线程变量
+ThreadLocal对每个线程都创建一个线程副本，就不会出现线程不安全问题。
+创建线程安全问题
+---------12 29
+JedisPool学习 redisTemplate学习
+JdkSerializationRedisSerializer：POJO对象的存取场景，使用JDK本身序列化机制，将pojo类通过ObjectInputStream进行序列化操作，最终redis-server中将存储字节序列。是目前最常用的序列化策略 
+@RequestMapping注解使用详细
+TCP/IP协议：就是各种电脑操作系统服务器设备相互通信交互需要一种统一的语言。
+-------2021 1 4 
+新的一年，我要好好学java，认真工作。
+我想把以前做不好的事情做到最好
+给的excel报表数据导入sqlserve
+------1 5  新的一年 我只是想把以前做不好的事情，做到最好
+今天回去背二十分钟单词，八点下班
+sqlserver null值和空值的问题 
+任何有null值的列都不能直接用!=  = 判断，要先isnull(列，'')转换成空字符串。NULL值默认转换成false
+--------- 1 7
+jdbctemplate实例操作数据库
+private final static RowMapper<实体类> ROW=BeanPropertyRowMapper.newInstance(实例.class)
+List<实例>list=jdbctemplate.query(sql,ROW,条件);
+这代码写的学问有点大
+------- 1  8
+inner join 获取两个表之间同时满足条件的数据 
+表结构有enable和display_order的话，默认就要用上
+实体类里面可以放一个List<User> 替代map集合
+serializable(色窝来斯博) 可序列化接口
+	这个接口里面是什么也没有，就是一个空的接口。它的作用就是为了告诉JVM让jvm来帮我序列化
+ serializable接口就是java提供用来进行高效率的异地共享对象的机制，实现这个接口即可。
+ 把对象转换为字节序列的过程称为对象的序列化
+ 把字节序列恢复为对象的过程称为对象的反序列化
+
+ JdbcTemplate
+ execute 、 query 、queryFor*** 、update
+----------1 11 
+enable(因内博)使能够    display_order(第斯铺嘞_喔得儿)显示_命令 数据库里有这两个字段默认
+用上
+调用DAO层或者Service层代码用private
+--------- 1 12 
+我只是想把以前做不好的事情，做到最好
+jdbcTemplate查询数据库报错的问题，sql语法有问题。
+存储过程
+	存储过程是存在数据库的一种定义好的SQL语句集合，可以通过存储过程的名称和携带的参数调
+用执行。写好存储过程以后可以重复使用，减少程序员重复写sql。
+	sqlserver存储过程语法，变量的名称可以用[]中括号括起来
+--------- 1 13
+Controller层地址命名规范，方法名去掉Controller
+SimplejdbcCall用来调用存储过程或者存储函数，还要学习存储过程，我丢。
+存储过程
+--------- 1 14 
+存储过程
+	@@LOCK_TIMEOUT关键字的用法
+	@@LOCK_TIMEOUT 返回当前会话的当前锁定超时设置（毫秒）
+	set LOCK_TIMEOUT可设置允许sql脚本等待阻塞资源的时间，超过这个时间就会报错
+--------- 1 15
+1.脏读
+	一个用户对一个资源做了修改，此时另外一个用户正好读取了这一条被修改的记录，然后第一个用
+户放弃修改，回滚数据。这两个用户拿到的不同的数据就是脏读
+2.不可重复度
+	一个用户的一个操作是一个事务，这个事务分两次读取同一条记录，如果第一次读取后，有另外的
+用户修改了这个数据，然而第二次读取的数据正好是其他用户修改的数据，这样造成两次读取的记录不同，如果事务中锁定这条记录就可以避免。
+3.幻读
+	指用户读取一批记录的情况，用户两个查询同一条件的一批记录，第一次查询后，有其他用户对这
+批数据做了修改，方法可能是修改，删除，第二次查询时，会发现第一次查询的记录条目有的不在第二次查询结果中，或者是第二次查询的条目不在第一次查询的内容中
+------ 1 18
+表值函数，跟存储过程类似，不过是轻量级的，比存储过程简单。目的都一样，都是为了写好直接调用查数据。
+&和&&双于 有一个false就是false,两边都是true才是true &&是短路
+|和||双货 有一个true就是true，两边都是false才是false ||是短路
+transient(穿三特) 被transient关键字标记的成员变量不参与序列化的过程。
+序列化就是将对象写入字节流和从字节流读取对象的过程。
+序列化和反序列化。
+	序列化就是将数据分解成字节流，以便文件在网络上传输。反序列化就是打开字节流重构对象。
+ObjectOutputStream 将对象写入字节流
+公司里内部写的生成一串不重复的随机数:IdUtils.getId("参数") String类型
+NamedParameterJdbcTempalte这个类用于自动封装Javabean
+jdbctemplate 明天开始自己弄一个模块自己玩这个方法。jdbcTemplate要学透
+------ 1 19 
+NamedParameterJdbcTempalte  new BeanPropertySqlParameterSource(bean) 
+WinSCP 是个Windows下使用ssh的客户端。主要功能可以在本地与远程设备间复制文件。可以通过winscp
+编辑上传删除远程设备的文件。  
+Xshell
+
+username: phoenix
+password: Chin@8620
+
+1. package: mvn package -Dmaven.test.skip=true
+2. backup server file
+3. upload new jar
+4. restart service
+168.182.19.217
+cd config 进入config
+ls -l 查看这个文件夹
+cd .. 返回上一级  cd 直接返回主页面 rm config 删除config
+Thymeleaf(太里付) 模板引擎技术
+nohup java -Xms1024m -Xmx2048m -file-0.0.2.jar.jar >log.txt 2>&1 &
+nohup java -Xms512m -Xmx512m -jar file-0.0.2.jar --spring.profiles.active=test &
+/etc/systemd/system/fm-file-service.service
+[Unit]
+Description=fm file service 6089
+After=syslog.target
+[Service]
+User=phoenix
+ExecStart=/usr/bin/java -jar -Dspring.config.location=/var/tomcat/fmFileService6089/app/config/application.yaml,/var/tomcat/fmFileService6089/app/config/application-test.yaml /var/tomcat/fmFileService6089/app/file-0.0.1.jar -Xms256m -Xmx768m SuccessExitStatus=143
+[Install]
+WantedBy=multi-user.target
+------ 1 20
+thymeleaf(太礼付)
+模板引擎技术，可以完全替代jsp。可以在无网络的情况使用，开箱即用，可以与springBoot完美整合
+------ 1 21 
+thymeleaf模板引擎 html实例学习 还有拦截器
+thymeleaf:ModelAndview mv   mv.setViewName("html名字") 写好html的名字可以直接调用
+mv.set
+springboot默认是集成thymleaf，springboot是约定大于配置。1.默认静态文件（js。css。jpg）放在resources下面static文件夹下面。2.页面文件放在templates文件夹下面
+------ 1 21
+<p th:text="${数据}"/>
+------ 1 25 
+swqgger2
+类似于postman，用于生成、描述、调用和可视化restful风格的web服务。可以测试Controller层的代码。  
+.paths(PathSelectors.regex("/view.*"))
+.paths(PathSelectors.any) 这样就是全部的Controller层的接口都会调用
+Filter过滤器
+------ 1 26
+save用@PostMapper
+@RequestBook可以接收Json类型的数据形式，并就将其转成相应的数据类型。
+------ 1 27
+swagger2的使用。可以轻松融入springboot中，并与springmvc程序配合组合出强大的API文档。减少创建文档的工作量。反正就是有了它就不用创建文档那么麻烦。
+boolean boo=true;
+int i= boo ? 1:0;  //这样就是boolean转成int类型
+List集合判空用if(list.isEmpty())    list集合是空的时候才能进来，就是list.size等于0的时候
+List集合判空 
+if(null==list || list.isEmpty) 有一个是true就是true，
+判有值 ：if(null!=list && list.isEmpty) 有一个没值就是false
+
+empty(嗯铺踢)空的
+写了两个接口 CRUD
+private final static RowMapper<User> user =BeanPropertyRowMapper.newInstance(User)
+jdbcTemplate.queryForObject(sql,user,参数) 这个方法如果查询不到结果，就会报错。所以要做
+好try()carch
+SpringData JPA框架学习。
+一般save用@postMapping，获取数据才用get
+------ 1 28 
+bean实体类加上@Data还要加上lombok的空参全参注解
+@RestController一般直接返回结果，@Controller返回时跳转的地址。
+用@Controller的@GetMapping加@ResponseBody也等同于用@RestController注解，返回的也是值，不会跳转到其他地方。
+JpaRepository(瑞怕斯特瑞)
+基本数据类型使用学习  bit是Boolean类型，数据有两种取值，一种是0一种是1，输入0以外的其它
+值的到时候系统都把他们当成1来看。sqlserver保存bit只能是true/false，但是显示的是1或者0
+java代码这边直接就是boolean类型，到数据库会自动转换，0是false，1是true。
+傻了吧。太粗心了，本来有很多机会改过来的，脑子不进事情。
+------ 1 29
+前端页面传过来的HttpservletRequest.getSession(获取session对象).getAttribute(得到属性值)
+String.replace('原来的字'，'要替换的字')。replace(''，'')。替换字符串
+String.equalsIgnoreCase("")比较两个字符串是否相等，不考虑大小写的问题
+公司的私服 IdUtils.getId("随便一个字符串") 生成一个随机不重复的字符串
+函数式接口，一个接口里只包含一个方法，@Functionallnterface这个注解表示这个接口是函数式接口。java中的kambda无法单独出现，它需要一个函数式接口来盛放，lambda表达式方法其实就是函数式接口的实现。
+分页
+jpa学习笔记
+------- 2 1
+前端需要分页，传过来第几列分，一页显示几个数据。start(斯塔特)开始的列，limit(里米特)
+每列几行数据。
+分页显示函数
+分页查询显示要返回前端total这个字段，就是根据条件看一共有多少条记录，返回前端处理。
+后端只用返回根据条件一共有多少数据列。
+select * from User order by id 2 rows fetch next 11 rows only
+查询用户User表，升序id列排列，从第三列开始取值，取11列数据。
+bean实体类可以继承extends别的实体类，这样就可以直接添加别的实体类定义好的属性。也可以获取。
+如果以后会改变的数据，把它提取到yaml配置文件中，以后方便改。
+@Value("${bookmark.number.top}")
+private String top; //这样获取
+数据库sql的top 值，赋值的问题 select top (0+?) .... 这样赋值top的值
+namedParameterJdbcTemplate.query   //返回的是List<User>这样的类型
+(SQL语句,new BeanPropertyRowMapper(传过来的实体类参数),
+RowMapper<要接收的实体类> user=BeanPropertyRowMapper.newInstance(要接收的实体类.class))
+DAO层异常处理，返回的是List<User>不用异常处理，service层判断返回的List<User>是否空list
+listUser.size()为空的话就是条件没有查到对应的数据。返回SuccessCode=101
+this关键字的使用
+------ 2 2
+自己电脑远程操作公司电脑，win10家庭版升级专业版
+用时间列order by排序的要desc，才是从近到远的时间列
+还有分页的时候不能用id来进行排序，可能会添加新的数据不准确。还是用update_date时间列进行排序最稳妥：这个例子，echo帮我改回来了。http://gitlab.easternphoenix.com/smartsolution-2.0/leader/leader-report-data-query-service/commit/9a1c565c1ca93b9a050a4461415d1f4adbe63b90
+gitlab上面又尴尬了
+mgt.easternphoenix.com 这个网址是春节加班登记内容和时间
+又学了一招，公司服务器远程开关机自己公司电脑，防止停电。还有win10远程操控自己公司电脑。
+1.远程自己的电脑,win10的远程连接桌面程序。113.107.7.26:3050  name：phoenix
+password：111111 
+2.公司服务器来开关机自己的电脑(防止停电，提前关机)。先用win10桌面控制连服务器电脑。给自己电脑关机。113.107.7.26:3223 name：alley.zhao@easternphoenix.com  password：!e2aXBnc
+浏览器连接http://10.0.0.50:16992 name：admin password：Chin@8620
+------ 2 3
+bookmark添加一个字段group_id，数据库根据这个字段查询另外一张表的两个字段返回。
+用的left join左连接
+this关键字又忘记带了
+------ 2 4
+数据库pk指主键，fk指外键。bigint类型java用Long接收，但是Echo用Integer
+Integer是16位，Long类型是32位。
+iReport报表生成
+------ 2 7
+ireport软件生成报表。还有群里的ppt要下载一下
+------ 2 8
+ireport子父报表学习
+------ 2 9
+最后第二天
+------ 2 18 
+努力学习，今年月入过万。
+只包含一个抽象方法的接口叫做函数式接口。
+------ 2 19
+serializable接口是实现序列化的接口，它其实里面什么也没有，只是实体类加上这个接口就可以告诉JVM这个类可以被序列化，可被默认的序列化机制序列化。
+序列化的过程就是将对象freeze住，然后进行储存，等待再次需要的时候再de-freeze就可以使用
+序列化的目的就是为了方便数据传输，尤其是远程调用的时候。存储对象在存储介质中，以便在下次使用的时候，可以很快的创建一个副本。  序列化就是将对象状态转换为可以保持或传输的格式的过程。与序列化相对的是反序列化，它将流转换为对象。序列化和反序列化结合起来可以轻松的传输数据 
+ireport报表where条件传值 
+------ 2 22
+Filter过滤器
+static作用
+1.具有隐藏作用：当同事编译多个文件时，所有未加static前缀的全局变量和函数都具有全局可见性
+2.保存变量内容的持久
+static修饰成员变量，修饰成员方法
+------ 2 23
+集合
+dashboard
+------ 2 24
+@service("名字") 一个接口多个实现类，通过备注唯一的名字，可以方便@Autowired注入快速指定哪一个实现类
+------ 2 25 
+item_actioned除item_built 等于 RGM Action %   
+
+[test_yum_success_plan].dbo.ap_plan_summary 这个表
+cons_store_info 这个表的 fbc ac    create_date=Date
+rpt_export_rest_action_plan 这个存储过程 account_name=Store_Name,account_numbe=Store_Num,owner=owner
+
+select * from [test_yum_success_plan].dbo.ap_plan_summary    item_actioned除item_built 等于 Actioned%
+c_create_date 就是Date
+
+------ 3 3 
+ireport报表的奇偶行背景设置不一样，一行整体设置一个颜色。最终要的是使用存储过程来操作数据。
+ireport报表柱状图
+https://download.csdn.net/download/my641567991/7963051?ops_request_misc=&request_id=&biz_id=103&utm_term=ireport%E6%9F%B1%E7%8A%B6%E5%9B%BE&utm_medium=distribute.pc_search_result.none-task-download-2~all~sobaiduweb~default-6-7963051.pc_search_result_before_js
+1 根据什么数据显示 2 根据数据的什么字段分小类 3 根据什么数据来显示高度
+------ 3 4
+函数，存储过程
+函数两种，一种Table_valued Functions 这是返回结果是一张表    select * from [dbo].[splitString]('test,123',',')
+Scalar-valued Functions 返回的是数据值  select top 1 [dbo].[fn_get_rating_abbr](overal_score) as ov ,*from mid_eval_perform
+------ 3 9 
+http://gitlab.easternphoenix.com/Churchs/Routines-APP-Server/wikis/standardresponse-format   这个地址是StandardResponse代码的注解
+test_yum_leader_leader_2_dashboard数据库下面的dbo.rpt_export_rest_action_plan  
+sqlserver数据库存储过程里面的字段是要大小写不区分的，int类型的字段0可以用isnull()函数判断出来
+String.contains("")判断字符串里面是否包含这个字符串。
+------ 3 16
+Sting.format()转义符https://blog.csdn.net/anita9999/article/details/82346552
+------ 3 17
+定义了一个公共的service
+StringBuilder sb=new StringBuilder();
+------ 3 19
+ireport报表Detail自适应高度和Detail根据不同的值改变不同的背景颜色问题。
+通过代码操作ireport报表，leder-report-data-query-service这个项目，export包里面都是实行各种包的类，最后通过AbstractExportHandler	这个类实现。
+------ 3 22
+lambda拉姆达表达式
+------ 3 29
+lambda
+Runnable和Callable
+Runnable接口run方法不能有返回值，run方法只能抛出运行时异常，且无法捕获异常。
+Callable的call方法有返回值，且支持泛型，call方法允许抛出异常，可以获取异常信息。
+leader-report-data-query-service项目的CommonExportHandler类，传进存储过程需要的xml数据，通过
+学习任务：
+1.@XmlElement  @XmlAccessorType   @XmlRootElement
+------- 4 6
+xxxx_by:人 xxxx_date:时间 
+触发器，分页
+------- 4 9
+1.DAO命名的时候全部要大写 data account object
+2.原则上对应不同表的DAO分开
+3.方法命名的时候，DAO中insert的方法用insert，update的用update，既能insert又能update的叫save
+4.standardResponse不需要配置statusKey
+5.Enum枚举类定义status的状态
+6.分页排序用create_date创建的时间desc降序排列
+------- 4 12
+@RequestBody注解主要是用来接收前端传递给后端的json数据的（请求体中的数据）
+数据库数据分页排序可以用create_date 这个时间字段，order by desc 排序
+最重要的取多条数据集合时候，一般要用display_order排序，加上只取enable=1的数据
+------- 4 13
+dao层调用存储过程获取多个数据的集合，和获取int类型的数据返回。
+controller层save,update,才用@PostMapper  get一直用@GetMapper
+add user as params to saveRequest;
+change DcCreationCriteria, delete accountNumber and performId, use DcRequest instead
+
+add dao for eval_perform
+
+------ 4 16
+dc_lib_items表中的exclusive_group字段，item_id是DCI0000001exclusive_group是1的话，下面的肯定就是true
+DAO层如果返回的结果是一个字段，多个结果。可以不用实体类接收，直接用List<String>类型接收，service层再进行一个循环处理。DAO还是用jdbcTemplate.query(SQL,new SingleColumnRowMapper<>(),参数)。这样返回就是可以是List<String>.
+1.DAO层DAO大写 2.dao原则上不同的表对应不同的dao类 3.dao层insert用insert起名，update用update，既能update又能insert的才用save
+数据库中所有的表的数据几乎都是从eval_perform基础表中取到的。表中字段带perform开头的九十从eval_perform表中获取的。字段***_by代表人，***_date代表。
+表中获取数据最后都是经过display_order排序和enable=1的数据显示
+------ 4 19
+数据库零0，和哦O.真他妈像 church's-routines-web-0.14.3t-production
+winscp软件升级项目，windows和linux系统之间传递文件
+------ 4 20
+zip包里面live是正式包，d是dev，t是test包
+------ 4 22
+mv public/ public_20210422
+先把public复制到另外public2021，2.再把新的包mv到public
+
+
+church\'s-routines-web-0.14.3l-production.zip
+
+/var/phoenix/churchsroutines-bak/church/'s-routines-web-0.14.3l-production
+
+/var/phoenix/churchsroutines-bak/church\'s-routines-web-0.14.3l-production
+
+linux命令
+	1.解压zip压缩包到这个文件夹，unzip ***.zip
+	2.mv public/ public2  把public重命名变成public2，这样就可以新建public文件夹了。注意/ 后面要带一个空格
+	3.cp -r /var/phoenix/bak/* /vcr/phoenix/public  把bak里面所有的东西都复制到public里面，里面文件名一样的内容不一样就会覆盖。这个命令要先有public这个文件     cp -r /var/phoenix/bak /vcr/phoenix/public    这个必须要没有这个public文件才能用这个命令，也就是复制的同时也是直接创建了这个新的文件。
+	4.cd .. 返回上一层 cd ../.. 返回上两层 cd回到主页面
+----  2021 4 26
+eval_perform的触发器，需求挺简单的，就是字段和含义每次都要弄半天才懂是啥需求，要我干啥东西。Trigger吹格
+----- 2021 4 27
+Map真傻了，脑子傻了、
+https://docs.microsoft.com/zh-cn/sql/t-sql/functions/error-message-transact-sql?view=sql-server-ver15   --sqlserver函数学习网站
+----- 2021 4 28
+NVARCHAR一般中文和一些特殊的字符就用这个NVARCHAR,纯英文就用VARCHAR
+---- 2021 4 29
+Map的命名不能随便就是map，或者list
+学习，2019年12月来到广州。最初的目的就是想把以前做不好的事情做到最好。但是现在不知道为什么连以前能做好的事情都做不好了。我到底要什么？？？？？....
+Stream学习。Stream将要处理的元素集合看做一种流，在流的过程中，借助StreamAPI 对流中的元素进行操作，比如：筛选、排序、聚合
+LinkedList数组每一个元素都可以成为一个节点（Node），每一个节点都包含三个项目：1.是元素本身的值，2.是上一个元素引用地地址值，3.是下一个元素引用的地址值
+所以LinkedList增加删除比较快，因为只需要把前后的元素的地址值改变就可以了。不用想ArrayList一样移动其他的元素
+栈先进后出，队列先进先出
+String这个类不能继承，因为被final关键字修饰过。原因有三个：1.为了实现字符串常量池 2.为了线程安全 3.为了HashCode的不可变性
+---- 5 6
+多个item获取Picture的Common Picture service:
+参数：
+    systemId:当前系统id，与目前每个系统分配的id一致，后端服务根据此参数来决定图片的物理位置
+	pictureId:图片id
+	token:当前用户登录令牌
+	timestamp:当前时间戳
+	signature:参数签名 signature = MD5(timestamp+pictureId+'{'+token+'}')
+----- 5 12 
+Ambiguous mapping项目运行报这个错，是collection层使用的类名称重合了。
+----- 5 13 
+好好上班，好好生活
+request和response的学习
+response是HttpservletResponse的功能：1.设置响应头header 2.发送状态码 3.设置响应正文 4.重定向
+----- 5 14
+学习GET请求和POST请求的区别：GET：请求参数会在浏览器的地址栏中显示，所以不安全；请求参数长度限制在1K之内；GET请求没有请求体，无法通过request.setCharacterEncoding()来设置参数的编码；
+POST：请求参数不会显示在浏览器的地址栏，相对安全；请求参数长度没有限制；
+---- 5 17 
+缓存：缓存之所以快就是因为把数据放到内存中，内存的读写速度是硬盘的好几倍。每次用户是先到缓存中拿数据，没有再从DB中取数据，放到缓存中，再给用户。下次用户直接在缓存中取数据速度就非常的快了。
+除此之外缓存还有两个重要的作用，预读写和延迟写。
+缓存雪崩：缓存数据在内存中有过期时间的，过期时间都同时到期，同时去数据库里拿数据，给数据库造成特别大的压力。解决：给每条数据过期时间设置随机值。
+缓存穿透：数据库和缓存都没有的数据，用户一直查询。解决：缓存和数据库都取不到的数据，可以给key-value设置key-null，缓存有效时间可以设置断点，30秒。这样防止一个id暴力攻击。
+缓存击穿：缓存没有数据，但是数据库有数据（就是缓存时间到期了）。这时候突然特别多的用户同时获取这条数据，同时去数据库里取数据，给数据库造成特别大的压力。解决：热点数据用不过期，或者加互斥锁。
+序列化：是把java对象转换为字节序列的过程 作用：在传递和保存对象时，保存对象的完成性和可传递性。
+------ 5 26
+exec [rpt_base_store_perform] @xmlParameter这个过程的返回是给 #user_stores临时表数据的。没有这个过程，#user就没有数据
+返回的数据是business_unit_code是business_unit的缩写
+如果xml的overallItemId不带参数就会返回所有的business_unit
+
+报表business_unit区域
+----6 22 
+光标一直闪烁：shift+ins
+------7 12
+我靠，还有两个月就回家玩去了
+controller层的方法是get就是@GetMapper，save就是@PostMapper，其他的一般也是post
+Controller层的user参数都是后台自己获取的，不管用token还是session都是可以从request中获取到用户信息的。UserAccess   HttpServletRequest.getSession.getAttribute("user");返回的结果就是UserAccess
+MockMvc也是一个测试的方式，是直接从controller开始测试的。common-picture-service这个项目的test类有模板
+
+
+Map<String, List<Product>> prodMap= prodList.stream().collect(Collectors.groupingBy(Product::getCategory));
+
+
+
+把简单的招式练到最好，就是绝招
+我只是想把以前做不好的事情做到最好
+今日：数据库的分库分表怎么提升读写速度
+
+
+($F{perform_type_report}.contains("ACE")?$F{consecutive_underperform_bs}:"")
+($F{perform_type_report}.contains("ACE")?$F{consecutive_underperform_ov}:"")
+-----7 20 
+boolean是基本数据类型，存在于栈中，只有true和false两种值。Boolean是包装类型，存在于堆中，除了true和false还有NULL。
+GET请求是把数据包含在URL里面的，所以get请求不适合用来传递重要信息，它的参数直接暴露在url里面。在URL中传递的参数是有限制的。
+POST请求是吧数据放在request body里面传递的，post请求比较适合传递重要信息。传递的参数没有限制
+比亚迪唐，我之前说的要买唐，现在连个车轮都没有
+--- 7 22
+GET请求和POST请求的区别；
+get请求是吧参数放在url里面的，所以相对性的不是那么安全，不适合传递一些重要的数据。get方法没有请求体
+post请求是通过request body来传递参数，相对安全，适合传递重要数据
+他两个都是基于http的TCP/IP协议进行传递的
+最重要的是get只会产生一个TCP数据包，post会产生两个TCP数据包。get在发送请求的时候，浏览器会把http header和data一起发出去，服务器响应200，返回数据。post发请求，会先发送header，服务器响应100 continue，浏览器再发送data，服务器响应200返回数据。
+缓存--
+预读写，就是在用户发出请求之前就进行从数据库操作读取数据放进缓存，用户需要数据直接从缓存拿。
+延迟写，是用户保存在数据库的数据先放到缓存中，给用户返回200，再行一个批量数据写入磁盘。延迟写中途如果断点宕机会丢失数据，不适合重要的数据这样保存
+缓存穿透：
+描述：是指缓存中和数据库都没有的数据，用户不断发送请求获取数据，比如发送id=-1的数据id不存在的数据。可能会导致数据库压力过大
+解决：1.接口层增加验证方法，id=-1的数据直接拦截，或者验证是否合法
+2.缓存和数据库的都没有的数据，可以给他key-value设置key-null，缓存有效时间为三十秒。可以防止攻击用户反复用一个id攻击
+缓存击穿：
+描述：缓存到期，但是需要这条数据的用户请求特别的巨大，同时去数据库找这条数据。会造成数据库的压力过大。
+解决：1.给热点数据永远不过期。2.可以加互斥锁解决问题，缓存数据过期，只允许一条请求去数据库拿数据，拿完之后再同步到缓存中，其他的请求从缓存中取数据
+缓存雪崩：
+描述：大量不同的缓存数据同时过期，同时都去数据库那数据。跟缓存穿透的区别是雪崩是多条不同的数据缓存过期，多条不同的请求同时去数据库拿数据。击穿是一条缓存数据过期，多条请求同时去数据库。
+解决：可以给不同的缓存加随机的过期时间，不允许他很多条数据同时过期
+我要挣高工资，月入过万就是干
+synchronized关键字解决的是多个线程之间访问资源的同步性，互斥锁。synchronized关键字修饰的方法代码块在任意时候只能有一个线程执行。
+-----7 23
+win10系统关闭自动更新
+1.'win+R'键打开运行窗口，输入gpedit.msc确定
+2.依次点击计算机配置，管理模板，Windows组件，双击Windows更新。
+3.双击配置自动更新，选择已禁用，确定
+-----7 27
+Hibernate学习
+SSH
+----- 8 4
+我只是想把以前做不好的事情做到最好
+二十一天就会养成一种习惯 ，干就是干，别让自己闲着，必须要找点事情干。天天空闲的时间去看抖音看娱乐视频，最后也没有学到啥东西，并且越来越怀疑人生的意义。根本就是在浪费时间。不要再做没有意义的事情了。我要月入过万。
+事务主要分为两张一种编程式事务，是指在代码中手动管理事务的提交回滚操作，代码的入侵性比较强。还有声明式事务，@Transactional是声明式事务。基于AOP面前切面的，它将具体的业务与事务处理部分解耦，代码入侵很低。比如@Transactional就是声明式事务。
+@Transactional失效的场景
+1.注解运用在非public修饰的方法上，Transactional将会失效。
+---- 8 5 
+@RequestBody主要就是用来接收前端传递给后端json字符串中的数据（请求体中的数据）。get请求是把参数直接放到url里面传递的，所以GET方式没有请求体。在后端的同一个接收方法里面，@RequestBody和@RequestParam可以同时使用，@RequestBody最多只能有一个，而@RequestParam()可以有多个。application阿不理科神 collection克来克神 controller康球那 message(麦c几)消息 converter(肯窝的)转换器
+@ResponseBody
+注解用于将Controller的方法返回的对象通过springmvc提供的HttpMessageConverter接口转换为指定格式的数据：json，xml等，通过Response响应给客户端。说白了就是把数据变成json前端需要的格式给前端，rsponse响应嘛，就是给前端数据
+@RequestBody
+注解用于读取http请求的内容(字符串)，通过springmvc提供的HttpMessageConverter接口 将读到的内容(JSON数据)转换为java对象并绑定到Controller方法的参数上。说白就是前端给的数据是json格式或者特殊格式，用这个注解转换成java的格式。request请求，把前端的数据拿过来。
+--- 8 6
+318的老程序员说工作的任务不是很重要，但是不是最重要的，最重要的是要搞清楚到底为什么这样写
+----- 8 17
+@JsonRawValue这个注解，后端String类型数据，前端需要Object类型的数据，这个注解加上可以转换。
+@JsonDeserialize(using=ObjectToStringDeserializer.class)这个注解是为了前端的Object类型的数据传到后端用String类型接收
+---- 8 20
+值类型和引用类型：
+一.概念
+值类型：直接存储值，在栈上存储其值    
+注：值类型变量声明后，不管是否已经赋值，编译器都为其分配内存
+引用类型：存储对其值的引用，在栈上存储地址，在堆上存储值
+注：引用类型当声明一个类时，只在栈中分配一小片内存用于容纳一个地址，而此时并没有为其分配堆上的内存空间，当使用new创建一个类的实例时，分配堆上的空间，并把堆上的空间的地址保存到栈上分配的小片空间里。
+create的时候可能有些字段是没有赋值的，但是数据库却是not null的设置，所以要把Bean实体类没有赋值的字段加上默认的赋值
+Controller层传过来的
+------ 8 24
+妈的第一次看懂源码，看的是equals。明明白白的，==比较地址值，比较地址值，和内容
+----- 8 25 生活就是为了体验没有体验过的美好，你说怎么体验。努力工作挣钱，我要买车
+----- 9 7
+当你觉得为时已晚，恰恰是最早的时候。
+Thought is already is late, exactly is the earliest time. 
+陈佩斯说：如果还停留在以前，经常怀念过去，那就是没有进步。人要往前看
+打好每一个代码，好好挣钱
+听过开往春天的地铁音乐，就感觉什么事都能重头再来一样。
+Build Your Dream
+八一学院511618201906667713
+当你已经落后了，别人走的时候，你选择跑
+----- 9 9
+工作是为了更好地体验放假的美好
+以后早上困，或者看不进去代码就自己学java知识总结，CSDN收藏里..
+SSH框架Struts (斯抓斯) spring Hibernate
+Struts是一个基于MVC	设计模式的web应用框架，相当于一个srvlet，在MVC设计模式中，Struts2作为控制器Controller来建立模型视图的数据交互。
+Spring是一个轻量级控制反转loc和面向切面aop的容器框架
+Hibernate是一个开放源代码的对象关系映射框架，它对JDBC进行了非常轻量级的对象封装，是一个全自动的orm框架。
+SSM：分别是spring，springmvc，myBatis。
+自己的项目是SpringBoot+SpringMvc+Hibernate。SpringBoot不需要xml配置文件，依赖于maven这样的构建系统
+----开始基础复习，不对，是预习。就是干
+JDK是开发工具包->包含JRE是运行环境->包含JVM是虚拟机 
+final和static的区别
+static可以修饰类的代码块，final不可以
+static可以修饰方法内局部变量，final不行
+static修饰表示静态或者全局
+static修饰的代码块表示静态代码块，当JVM加载类时，只会被创建一次
+static修饰的变量可以重新复制
+static方法中不能用this和super关键字
+static方法必须被实现，而不能是抽象的abstract
+static方法只能被static方法覆盖
+final修饰表示常量、一旦创建不可修改
+final标记的成员变量必须在声明的同时赋值，不可重复赋值
+fianl方法不能被子类重写
+fianl类不能被继承，没有子类，final类中的方法默认是final
+final不能修饰构造方法
+private类型的方法默认是final类型的
+浅谈JAVA反射机制
+1.反射的定义：java反射机制是运行状态中，对于任意一个类，都能知道这个类的所有属性和方法。对于任意一个对象，都能够调用它的任意一个方法。对于动态获取、调用对象方法的功能都成为java语言反射机制。
+今天不到八点不死不回，就是干
+两张表一般都是inner join 内连接！！！！记住了
+
+Invalid column name 'deleted'.
+----- 2021 10 8 
+靠自己，不要再做没有意义的事情了。跑这么远来广州，努力的好好生活
+IP 地址 cmd ipconfig
+Gitlab地址SSL过期 解决命令：git config --global http.sslVerify false
+------ 10 14
+break;//直接结束整个for循环
+//continue; //只是结束这层循环，执行下一层循环
+------ 10 26 
+this代表当前对象的一个引用。所谓当前对象，指的是调用类中方法或属性的那个对象。
+static静态方法中不能使用this
+封装、继承、多态
+封装：封装就是把对象的属性和行为结合成一个独立的整体，并尽可能的隐藏对象的内部实现细节。
+继承：创建一个新类的一部分功能是另外一个基类的具有的，就可以通过继承基类来实现这些功能。避免了代码臃肿
+多态：父类引用变量可以指向子类对象
+接口和抽象类
+接口：接口必须用interface修饰，接口不能被实例化，一个类可以实现多个接口
+抽象类：抽象类必须用Abstract关键字修饰，抽象类不能被实例化，抽象类只能单继承。
+成员变量和局部变量
+成员变量：在类中方法外，在内存中的堆中，随着对象的创建而创建随着对象的消失而消失，初始化有默认值
+局部变量：方法定义中或者方法声明上，在内存的栈中，随着方法的调用而调用，随着方法的调用结束而消失，没有默认值必须提前定义赋值才能使用
+final和static的区别
+--- 10 27
+八大基本类型
+整数：Byte Short Int->Integer Long 浮点：Float Double 布尔：Boolean 字符：char->Character
+字节：byte/8 short/16 int/32 long/64 float/32 double/64 boolean/1 char/16
+String被声明了fianl因此不能被继承。Integer、Character等包装类型也不能被继承
+java8Stirng使用char存储数据，java9用byte来存储
+-- 11 4
+json ->是四个单词的缩写Java Script Object Notation
+---- 11 15
+幂等特点是任意多次执行所产生的影响均与一次执行的影响相同。
+---- 1 17
+==和equals的区别
+String str1="validation"
+String str2="validation"
+sout(str1==str2)
+sout(str1.equals(str2)) --返回true因为str1其实是jvm在局部变量表创建了一个内容为"validation"的地址值，然后让str1去指向"validataion",而不是把"validatiion"直接赋值给str1。
+在编译str2="validation"的时候局部变量表已经有了"validation"的地址值，所以让str2直接指向局部变量表中的，这样str1和str2的地址值都一样，所以==的结果是true
+String str1="validation"
+String str2=new Stirng("validation")
+sout(str==str2) -- false
+sout(str1.equals(str2)) -- true
+java代码每次new都会在内存中新建一个空间去存储"validation",所以==比较的地址值自然不一样。
+equals是比较的内容，所以是true
+----- 11 24
+刷面试题
+---- 11 26
+Redis是基于内存的数据库存储，如果遇到服务器突然停电宕机，数据将会丢失。但是，Redis提供了两种不同的方式来进行持久化，RDB,PDF
+Redis DataBase :把当前数据生成快照的方式保存到硬盘上。
+手动触发RDB有两种命令，一种save，是直接对数据保存到硬盘上，但是这种方式会占用进程，可能造成线程阻塞。还有一种是bgsave，Redis先判断当前是否存在正在执行的RDB和AOF子线程，如果存在直接结束。不存在就执行fork创建子线程，在fork操作的时候Redis进程会短暂的阻塞。Redis进程fork完成后，bgsave命令就结束了，redis进程可以相应其他的命令。子进程根据Redis进程内存生成快照文件，替换原有RDB文件。子进程通过信号量同时 Redis进程已经完成。
+AOF ：每次操作都把数据记录到硬盘上
+----- 12 10
+学习Redis 没搞理论知识了，就是猛敲代码
+------ 12 17
+八大数据类型
+整数：byte short int long 
+浮点：float,double
+布尔：Boolean
+字符：char
+----- 12 20
+Set 集合的学习
+机械键盘的声音好大的
+--- 12 24
+幂等性：一个接口多次发起同一个请求，必须保证操作只能执行一次。例子：支付接口，订单接口
+----12 30
+token:就是服务端生成的一串字符串
+----2022 1 9 
+今年的目标就是背一千个单词，跳槽年入过万
+---- 1 10
+手写冒泡排序
+---- 1 11 
+目标 月入过万 就是干
+---- 1 17
+传统身份验证（session）
+1.由于Http请求是无状态的，服务端不知道发出的请求用户哪个是哪个。客户端用用户名和密码发出请求，第二次发出请求的时候还是要再从新发出用户名和密码。
+2.解决方法是：客户端发出请求之后，服务端验证通过后，会生成一条记录，并且把记录的id发给客户端。客户端把这条id保存到cookie中，下次发出请求携带。服务端验证这个id看是否有数据，如果有正常返回。
+3.客户端的过期的id，需要定期的清理
+----- 1 25
+马上又要回家了，又是一年
+----- 2 21
+final 最终， finally(伐闹里)终于， finalize(伐闹来斯)最后决定 Recently(瑞森累)最近的 starred(斯达儿的)用星装饰的
+--- 2 22
+小赵小赵，吉星高照
+expects at least 2 arguments but only found 1
+--- 2 25
+二十二岁的初出茅庐，十年的广飘结束了，明天最早的机票。莫名的感觉，有些感慨，很多不舍，广州....从此以后再也没有急匆匆的外卖，再也没有三号线的拥挤，再也没有午夜下班的疲惫，再也没有996对周末的期待。
+再见，你说的，没有冬天的城市。
+--- 2 28
+Stream list.stream获取某个字段列, string，stringBuffer, StringBuilder  final
+String字符串常量，final继承，每次+的时候其实都是新创建了一个字符串对象，所以性能慢。 StringBuffer字符串变量，线程安全。比String快，.append() & .insert()。每次操作都是对StringBuffer本身来进行操作的。StringBuilder比buffer快一点，但是不能保证同步，只能用在单线程里面使用
+总结：经常操作字符串多线程用StringBuffer，单线程操作字符串用StringBuilder效率更高
+---- 3 1 
+自考报名 基本类型和引用类型 数组和集合的区别 Collection集合方法 list和set区别(3) list实现类特性(3) Set实现类特性(3) Map的主要方法(10)
+搞出来简历
+你不知道努力的意义，那是因为你从来没有足够努力，体验努力过后的回报
+
+集合特性
+https://blog.csdn.net/feiyanaffection/article/details/81394745?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522164609649216780265493237%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=164609649216780265493237&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-1-81394745.pc_search_result_control_group&utm_term=java%E9%9B%86%E5%90%88&spm=1018.2226.3001.4187
+
+Type argument cannot be of primitive type
+https://blog.csdn.net/chengbinbbs/article/details/78973453?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522164610267516780264085900%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=164610267516780264085900&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-1-78973453.pc_search_result_control_group&utm_term=java%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B%E5%92%8C%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B&spm=1018.2226.3001.4187
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+
+
+
+

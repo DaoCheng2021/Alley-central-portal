@@ -25,6 +25,8 @@ public interface CourseService {
 
     String addVote(String userSoleId, String authorSoleId);
 
+    String test(String string);
+
 
 
 }

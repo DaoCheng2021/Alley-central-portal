@@ -5,14 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tts.cp.lib.visit.bean.ConfPerform;
 import com.tts.cp.lib.visit.bean.LibItemsMini;
 import com.tts.cp.lib.visit.bean.LibTemplateScope;
-import com.tts.cp.lib.visit.bean.User;
 import com.tts.cp.lib.visit.dao.*;
 import lombok.extern.slf4j.Slf4j;
-import net.sf.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.StringUtils;
+import sun.nio.cs.ext.MacArabic;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -39,14 +38,76 @@ public class VisitDAOTest {
     @Autowired
     private LibItemsMiniRepository libItemsMiniRepository;
 
-    @Test // 实体类转json，jsonString获取里面的数据
-    public void TestFindByTemplateId() throws JsonProcessingException {
-        ConfPerform confPerform = confPerformRepository.findByTemplateId("PPAA342081");
-        String confPerformJSON = new ObjectMapper().writeValueAsString(confPerform); // 实体转JSON
-        JSONObject jsonObject = JSONObject.fromObject(confPerformJSON); //json获取里面的数据
-        String templateId = jsonObject.getString("templateId"); // 获取json里面templateId的数据
+    @Test
+    public void test01() {
+        String[] strings = new String[]{"aa", null, "cc"};
+        List<String> list = Arrays.asList(strings);
+        Set<String> set = new HashSet<>(Arrays.asList(strings));
+        List<String> list1 = new ArrayList<>(set);
+        String[] objects = (String[]) list.toArray();
+        Stack<String> stack = new Stack<>();
+        stack.add("aa");
+        stack.add("aa");
+        stack.add("aa2");
+        TreeSet<Integer> treeSet = new TreeSet<>();
+        treeSet.add(1);
+        treeSet.add(3);
+        treeSet.add(2);
+        treeSet.add(2);
+        Map map = new HashMap();
+        map.put("a","a1");
+        map.put("a2","a2");
+        map.put("a3","a3");
+        Set<Map<String,String>> set1 = map.entrySet();
+    }
+
+    @Test //  获取List实体类其中一个字段，获取实体类两个字段
+    public void test04() {
+        List<ConfPerform> confPerforms = confPerformRepository.findAllByBrand("kfc");
+        List<String> list = confPerforms.stream().map(ConfPerform::getTemplateType).collect(Collectors.toList());
+        LinkedHashMap<Object, Object> collect1 = confPerforms.stream().collect(LinkedHashMap::new, (k, v) -> k.put(v.getTemplateId(), v.getDisplayOrder()), LinkedHashMap::putAll);
 
     }
+
+    @Test // Optional.ofNullable(Field1).orElse(Field2) 如果Field1是null值,就自动赋值Field2的值，不用if判断空值了
+    public void test03() {
+        ConfPerform confPerform = confPerformRepository.findByTemplateIdAndDeletedAndTemplateTypeNot("0614", false, "Default");
+        String userRoles = Optional.ofNullable(confPerform.getUserRoles()).orElse("");
+//        String userRoles = confPerform.getUserRoles();
+        if (userRoles.equals("tt")) {
+            System.out.println(userRoles);
+        }
+
+    }
+
+    @Test
+    public void test02() {
+        Set<String> set = new HashSet<>();
+        set.add("_DFPHI");
+        set.add("_DFKFC");
+        List<ConfPerform> confPerformList = confPerformRepository.findAllByTemplateId(set);
+        List<ConfPerform> confPerformList2 = confPerformRepository.findAllByTemplateId(set);
+        for (ConfPerform confPerform : confPerformList) {
+            for (ConfPerform confPerform2 : confPerformList2) {
+                if (confPerform.getTemplateId().equals(confPerform2.getTemplateId())) {
+                    confPerform.setTest(confPerform2.getTemplateId());
+                    continue;
+                }
+            }
+        }
+
+        List<ConfPerform> dfkfc = confPerformList.stream().filter(conf -> conf.getTemplateId().equals("_DFKFC")).collect(Collectors.toList());
+
+    }
+
+//    @Test // 实体类转json，jsonString获取里面的数据
+//    public void TestFindByTemplateId() throws JsonProcessingException {
+//        ConfPerform confPerform = confPerformRepository.findByTemplateId("PPAA342081");
+//        String confPerformJSON = new ObjectMapper().writeValueAsString(confPerform); // 实体转JSON
+//        JSONObject jsonObject = JSONObject.fromObject(confPerformJSON); //json获取里面的数据
+//        String templateId = jsonObject.getString("templateId"); // 获取json里面templateId的数据
+//
+//    }
 
     @Test// DAO的sql代码用in来查询返回的结果会有顺序的问题，这个dao这样写避免了顺序的问题
     public void TestGetLibItemsMiniItems() {

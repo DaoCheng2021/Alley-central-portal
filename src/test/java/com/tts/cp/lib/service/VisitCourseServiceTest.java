@@ -238,4 +238,9 @@ public class VisitCourseServiceTest {
         System.out.println(result);
     }
 
+    @Test
+    public void test01(){
+        System.out.println(courseService.test("test----"));
+    }
+
 }

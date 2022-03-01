@@ -29,6 +29,7 @@ import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -44,13 +45,88 @@ public class DemoTest_01 {
     // 静态类变量和类变量会自动设置初始值，用final修饰的类变量或者局部变量必须手动赋值。
     static int in;
 
+    @Test // 两个hashCode相等，equals相等吗
+    public void test36(){
+        String str1 = "通话";
+        String str2 = "重地";
+        System.out.println(String.format("str1：%d | str2：%d",  str1.hashCode(),str2.hashCode()));
+        System.out.println(str1.equals(str2));
+        // 因为在散列表中，hashCode相等代表两个键值对的哈希值相等，哈希值相等并一定得出键值对相等
+    }
+
     @Test
-    public void test01() {
-        Set<String> set = new HashSet<>();
-        set.add("aa");
-        set.add("aa1");
-        set.add("aa2");
-        System.out.println(set.toString());
+    public void test35() {
+        StringBuffer sb = new StringBuffer();
+        sb.append("2222");
+        sb.insert(3,"4");
+        System.out.println(sb);
+        StringBuilder stringBuilder=new StringBuilder();
+        stringBuilder.append("ss");
+        List list=new ArrayList();
+        list.add("a");
+        list.add("b");
+        list.add("b");
+        Set set = new HashSet(list);
+        System.out.println();
+        List list1 =new ArrayList(set);
+        list1.add("b");
+    }
+
+    /*
+     * 乐观锁实现:主要用到了AtomicInteger来实现了乐观锁，底层用的是CAS机制实现
+     * CAS：主要包含了三个操作数->内存位置，预期原值和新值。把内存位置的值和预期原值比较，如果相匹配，处理器自动会把新值放到内存位置上，如果不匹配，不做任何操作。
+     * */
+//    private static volatile int a = 0;
+    public static void main(String[] args) {
+        AtomicInteger a = new AtomicInteger();
+        Thread[] thread = new Thread[5];
+        for (int i = 0; i < 5; i++) {
+            thread[i] = new Thread(() -> {
+                for (int y = 0; y < 10; y++) {
+                    System.out.println(a.incrementAndGet());
+//                    System.out.println(a++);
+                    /*
+                     * 不用AtomicInteger的乐观锁->a++做了三件事情
+                     * 1.从主存中读取a的值
+                     * 2.对a进行加1的操作
+                     * 3.把加1后的a重新刷新到主存中
+                     * 但是刷新之前别的线程已经改变了主存的值，那么就会造成数据错误
+                     * */
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            thread[i].start();
+        }
+    }
+
+    @Test // String 的常用方法
+    public void test34() {
+        String str = " Hello, world ";
+        System.out.println(str.length()); // 返回长度
+        System.out.println(str.charAt(1)); // 截取一个字符
+        char[] chars = str.toCharArray(); // 变成数组
+        String str2 = Arrays.toString(chars); // 数组变字符串
+        System.out.println(str2);
+        System.out.println(str.indexOf("wo")); // 查询一个字符串是否存在
+        System.out.println(str.toUpperCase()); // 把所有字符变大写
+        System.out.println(str.toLowerCase()); // 把所有字符变小写
+        String[] split = str.split(","); // 根据 ， 分割成多个字符串
+        for (String s : split) {
+            System.out.println(s);
+        }
+        System.out.println(str.trim()); // 删除字符前后的空格
+        System.out.println(str.replace(",", "?")); // 新旧字符替换
+        System.out.println(str.substring(0, 4)); // 只取字符串下标0 - 4的数据，不包括下标4
+        System.out.println(str.equalsIgnoreCase("aa")); // 不考虑大小写的前提比较内容
+        System.out.println(str.contains("he")); // 判断是否包含
+        System.out.println(str.startsWith("ll")); // 判断时候是这个字符开头
+        System.out.println(str.endsWith("d ")); // 判断是否是这个字符结尾
+        System.out.println(str.replaceAll("ll", "?")); // 全部替换成指定的内容
+        System.out.println(str.replaceFirst("ll", "?")); // 替换第一个出现的内容
     }
 
     @Test
@@ -211,9 +287,9 @@ public class DemoTest_01 {
         string[1] = "2";
         string[2] = "3";
         string[3] = "4";
-        String s = TextUtil.underscoreName(string[1]);
-        System.out.println(string[1]);
-        System.out.println(TextUtil.underscoreName(string[1]));
+        // TextUtil.underscoreName()方法是增加大写字母的下划线 pending_name
+        String s2 = TextUtil.underscoreName("pendingName");
+        System.out.println(s2);
         List<String> list = Arrays.asList(string); // 数组转集合，集合转数组
         System.out.println(list);
         String[] strings = list.toArray(new String[]{});
@@ -602,15 +678,19 @@ public class DemoTest_01 {
         list.add("a2");
         list.add("a3");
         for (String string : list) {
-            if (string.equalsIgnoreCase("a2")) {
-                break;//直接结束整个for循环
-                //continue; //只是结束这层循环，执行下一层循环
+
+            for (String s : list) {
+                if (s.equalsIgnoreCase("a2")) {
+//                    break;//直接结束整个for循环
+                    continue; //只是结束这层循环，执行下一层循环
+                }
             }
+
         }
-        String str = "http://10.0.0..29:8080/recs/verify/tokan=%1$s=====%2$s---------%3$s";
-        System.out.println(String.format(str, "数据1", "数据2", "数据3")); //format的使用 %3$s
-        System.out.println(switchTest("phi"));
-        System.out.println(Math.abs(-3)); //负数返回绝对值，正数不变
+//        String str = "http://10.0.0..29:8080/recs/verify/tokan=%1$s=====%2$s---------%3$s";
+//        System.out.println(String.format(str, "数据1", "数据2", "数据3")); //format的使用 %3$s
+//        System.out.println(switchTest("phi"));
+//        System.out.println(Math.abs(-3)); //负数返回绝对值，正数不变
         /*
          * boolean和Boolean的区别：boolean是基本数据类型，存在于栈中，只用true和false。Boolean是包装类型，存在于堆中，有true和false还有null
          八大基本类型：1.byte 2.short 3.int 4.long 5.float 6.double 7.char 8 boolean
@@ -660,7 +740,7 @@ public class DemoTest_01 {
 //        System.out.println("synchronized 2 结束");
 //    }
 
-    @Test
+    @Test//
     public void test02() {
         String substring = ",ww a qw w".substring(1);//删除对应下标的字符
         System.out.println(substring.substring(1, substring.length() - 1));//删除第一个字符和最后一个

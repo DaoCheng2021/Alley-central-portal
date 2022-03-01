@@ -35,6 +35,11 @@ public interface ConfPerformRepository extends JpaRepository<ConfPerform, String
 
     List<ConfPerform> findAllByBrand(String brand);
 
+    ConfPerform findByTemplateIdAndDeletedAndTemplateTypeNot(String templateId,boolean deleted, String templateType);
+
+    @Query(value = "SELECT * FROM conf_perform WHERE template_id in (:templateId)", nativeQuery = true)
+    List<ConfPerform> findAllByTemplateId(@Param("templateId")Set<String> templateId);
+
     ConfPerform findByTemplateId(String templateId);
 
 }

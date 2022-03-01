@@ -242,6 +242,12 @@ public class CourseServiceImpl implements CourseService {
         }
     }
 
+    @Override
+    public String test(String string) {
+        System.out.println("test:方法体");
+        return string;
+    }
+
     // 用户点赞的文章统计
     public Map userPraiseArticle(String userId, String authorId, String articleId) {
         log.info("--userPraiseArticle:{},{},{}", userId, authorId, articleId);

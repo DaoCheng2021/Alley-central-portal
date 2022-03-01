@@ -22,24 +22,25 @@
 DAO层那些代码，各种情况都试一次
 手写冒泡排序
 token是什么？怎么生成 Jwt是什么 --JWTCreateVerify这个类
+单例模式:保证一个系统中一个类只有一个对象的实例，实现这种功能的方式就叫做单例模式
 
 你只管努力，剩下的交给天意
 不要假装很努力，因为结果不会陪着你演戏
 这么年轻，怎么睡的着
+悲观锁 乐观锁 redis分布式锁
+final、finally、finalize区别
 cookie
 异常的区别
 存储过程 调用 触发器 都测试一次
 触发器 BEGIN TRAN  COMMIT TRAN
 接口和类的区别
-Cookic
 这个项目连接的公司的数据库，不知道Mysql能不能让两个电脑连接
 幂等校验
-悲观锁 乐观锁  redis分布式锁
-6.微服务
+微服务
 Stream
 单例模式
 消息中间件的需求
-用RabbitMQ
+RabbitMQ
 Linux
 诺依
 一个项目连接两个数据库，好像只能用传统dao，不能用jpa
