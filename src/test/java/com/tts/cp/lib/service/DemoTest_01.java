@@ -45,11 +45,18 @@ public class DemoTest_01 {
     // 静态类变量和类变量会自动设置初始值，用final修饰的类变量或者局部变量必须手动赋值。
     static int in;
 
+    @Test
+    public void test37() {
+        Runnable runnable = () -> {
+            System.out.println(Thread.currentThread().getName()+ " : "+ Thread.currentThread().getId());
+        };
+    }
+
     @Test // 两个hashCode相等，equals相等吗
-    public void test36(){
+    public void test36() {
         String str1 = "通话";
         String str2 = "重地";
-        System.out.println(String.format("str1：%d | str2：%d",  str1.hashCode(),str2.hashCode()));
+        System.out.println(String.format("str1：%d | str2：%d", str1.hashCode(), str2.hashCode()));
         System.out.println(str1.equals(str2));
         // 因为在散列表中，hashCode相等代表两个键值对的哈希值相等，哈希值相等并一定得出键值对相等
     }
@@ -58,17 +65,17 @@ public class DemoTest_01 {
     public void test35() {
         StringBuffer sb = new StringBuffer();
         sb.append("2222");
-        sb.insert(3,"4");
+        sb.insert(3, "4");
         System.out.println(sb);
-        StringBuilder stringBuilder=new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("ss");
-        List list=new ArrayList();
+        List list = new ArrayList();
         list.add("a");
         list.add("b");
         list.add("b");
         Set set = new HashSet(list);
         System.out.println();
-        List list1 =new ArrayList(set);
+        List list1 = new ArrayList(set);
         list1.add("b");
     }
 

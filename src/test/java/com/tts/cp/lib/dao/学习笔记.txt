@@ -691,6 +691,10 @@ https://blog.csdn.net/feiyanaffection/article/details/81394745?ops_request_misc=
 
 Type argument cannot be of primitive type
 https://blog.csdn.net/chengbinbbs/article/details/78973453?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522164610267516780264085900%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=164610267516780264085900&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-1-78973453.pc_search_result_control_group&utm_term=java%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B%E5%92%8C%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B&spm=1018.2226.3001.4187
+---- 3 2 
+进程和线程 多线程方法区别(3) Callable获取返回值 线程状态 new runnable running blocked terminated
+synchronized关键字作用
+https://www.cnblogs.com/weibanggang/p/9470718.html
 
 
 
