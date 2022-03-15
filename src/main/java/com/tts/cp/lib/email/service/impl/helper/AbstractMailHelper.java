@@ -12,6 +12,7 @@ import org.springframework.util.StringUtils;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
 
+// 发邮件自己封装的工具类，调用java发邮件MimeMessageHelper工具类
 @Slf4j
 public abstract class AbstractMailHelper implements MailHelper {
     @Autowired

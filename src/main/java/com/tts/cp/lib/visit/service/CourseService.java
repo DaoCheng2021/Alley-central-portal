@@ -27,6 +27,4 @@ public interface CourseService {
 
     String test(String string);
 
-
-
 }

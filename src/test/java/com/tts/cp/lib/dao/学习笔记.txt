@@ -694,7 +694,29 @@ https://blog.csdn.net/chengbinbbs/article/details/78973453?ops_request_misc=%257
 ---- 3 2 
 进程和线程 多线程方法区别(3) Callable获取返回值 线程状态 new runnable running blocked terminated
 synchronized关键字作用
-https://www.cnblogs.com/weibanggang/p/9470718.html
+发邮件的
+创建一个项目，ssm框架 mysql 
+--- 3 4 
+生活规律点十一点五十之前必须睡觉
+BeanFactory
+今年要不报名广东的自考本科，要不就报名河南的函授本科
+---- 3 7 
+没时间了，学习，学习，挣钱。二十五岁。
+---- 3 8 
+linux
+查看运行java项目 ps -ef | grep java
+杀死项目  kill -9 自己的id
+进入有权限的文本   sudo vim 文本的name.txt  然后按Insert，就可以进来编译，编译结束按ESC，按 ：冒号加 wq 就可以退出编译
+切换root用户权限  sudo -i  再输入密码：Chin@8620
+---- 3 10
+你只管努力，剩下的交给天意
+--- 3 14 
+只管努力，剩下的交给天意
+群里毕业两年的女的说月薪四万七，震撼的我一下午没心思看代码，总是走神
+--- 3 15 
+就是干
+
+
 
 
 

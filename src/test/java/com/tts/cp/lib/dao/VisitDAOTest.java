@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.StringUtils;
-import sun.nio.cs.ext.MacArabic;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -55,10 +54,10 @@ public class VisitDAOTest {
         treeSet.add(2);
         treeSet.add(2);
         Map map = new HashMap();
-        map.put("a","a1");
-        map.put("a2","a2");
-        map.put("a3","a3");
-        Set<Map<String,String>> set1 = map.entrySet();
+        map.put("a", "a1");
+        map.put("a2", "a2");
+        map.put("a3", "a3");
+        Set<Map<String, String>> set1 = map.entrySet();
     }
 
     @Test //  获取List实体类其中一个字段，获取实体类两个字段

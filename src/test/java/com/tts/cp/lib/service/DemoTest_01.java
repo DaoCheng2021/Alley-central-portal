@@ -45,10 +45,109 @@ public class DemoTest_01 {
     // 静态类变量和类变量会自动设置初始值，用final修饰的类变量或者局部变量必须手动赋值。
     static int in;
 
+    private final ArrayList arrayList = new ArrayList<String>();
+
+    @Test
+    public void test42() {
+
+    }
+
+    // 计算出String每种字符出现的次数
+    @Test
+    public void test41() throws IndexOutOfBoundsException {
+        Object o;
+
+        String string = "abstractTestParam";
+        Map<Character, Integer> map = new HashMap<>();
+        int length = string.length();
+        for (int i = 0; i < length; i++) {
+            char c = string.charAt(i);
+            if (map.containsKey(c)) {
+                Integer integer = map.get(c) + 1;
+                map.put(c, integer);
+            } else {
+                map.put(string.charAt(i), 1);
+            }
+        }
+        Set<Map.Entry<Character, Integer>> entries = map.entrySet();
+        for (Map.Entry<Character, Integer> entry : entries) {
+            System.out.println(entry.getKey() + ":" + entry.getValue());
+        }
+    }
+
+    @Test
+    public void test40() {
+        List<String> list = new ArrayList<>();
+        list.add("replace替换");
+        list.add("toLowerCase");
+        list.add("length");
+        list.add("toLowerCase");
+        Iterator<String> iterator = list.iterator();
+        while (iterator.hasNext()) {
+            String next = iterator.next();
+            if (next.equals("toLowerCase")) {
+                iterator.remove();
+//                break;
+            }
+        }
+        Hashtable hashtable = new Hashtable();
+        hashtable.put("a", "s");
+        hashtable.put("a2", "s2");
+//        LinkedHashMap
+        HashMap map;
+        arrayList.add("a");
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("ss");
+        stringBuilder.append("ss2");
+        String string = stringBuilder.toString();
+    }
+
+    @Test //String方法
+    public void test39() {
+        String string = " Length L";
+        String string2 = " Length L2";
+        boolean equals = string.equals("");
+        boolean b = string.equalsIgnoreCase(""); //易格no儿 K斯
+        int indexOf = string.indexOf("Lww"); // 返回指定字符的索引
+        char charAt = string.charAt(3); // 返回指定索引的字符
+        String[] gs = string.split("g"); // 根据指定字符串分割字符串
+        byte[] bytes = string.getBytes(); // 返回字符串byte类型数组
+        char[] chars = string.toCharArray(); // 变成数组
+        String string1 = Arrays.toString(chars); // 数组变字符串
+        String replace = string.replace('L', 'l'); //瑞配斯 替换指定字符
+        String trim = string.trim(); // 去除字符两边的空格
+        int length = string.length(); // 返回字符串的长度
+        String lowerCase = string.toLowerCase(); // 咯魏 把字符串全部小写
+        String upperCase = string.toUpperCase(); // 阿配 把字符串全部大写
+        String substring = string.substring(2, 4); // 截取字符串
+        boolean he = string.contains("HE");// 肯忒斯 判断是否包含
+        int i = string.hashCode();
+        int i2 = string2.hashCode();
+        Vector vector = new Vector();
+    }
+
+    /*
+    final 修饰类最终类，不能继承 修饰方法不能被重写（可以重载） 修饰变量是常量，必须初始化
+    finally 配合try catch使用，有无异常都会走里面的代码。可以写必须要写的代码
+    finalize 是Object的一个垃圾回收的方法。
+    * */
+    @Test
+    public void test38() {
+        try {
+//            int i=1/0;
+            System.out.println("开始");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            System.out.println("最终实现的代码");
+        }
+        System.out.println("结束");
+    }
+
     @Test
     public void test37() {
         Runnable runnable = () -> {
-            System.out.println(Thread.currentThread().getName()+ " : "+ Thread.currentThread().getId());
+            System.out.println(Thread.currentThread().getName() + " : " + Thread.currentThread().getId());
         };
     }
 
@@ -108,32 +207,6 @@ public class DemoTest_01 {
             });
             thread[i].start();
         }
-    }
-
-    @Test // String 的常用方法
-    public void test34() {
-        String str = " Hello, world ";
-        System.out.println(str.length()); // 返回长度
-        System.out.println(str.charAt(1)); // 截取一个字符
-        char[] chars = str.toCharArray(); // 变成数组
-        String str2 = Arrays.toString(chars); // 数组变字符串
-        System.out.println(str2);
-        System.out.println(str.indexOf("wo")); // 查询一个字符串是否存在
-        System.out.println(str.toUpperCase()); // 把所有字符变大写
-        System.out.println(str.toLowerCase()); // 把所有字符变小写
-        String[] split = str.split(","); // 根据 ， 分割成多个字符串
-        for (String s : split) {
-            System.out.println(s);
-        }
-        System.out.println(str.trim()); // 删除字符前后的空格
-        System.out.println(str.replace(",", "?")); // 新旧字符替换
-        System.out.println(str.substring(0, 4)); // 只取字符串下标0 - 4的数据，不包括下标4
-        System.out.println(str.equalsIgnoreCase("aa")); // 不考虑大小写的前提比较内容
-        System.out.println(str.contains("he")); // 判断是否包含
-        System.out.println(str.startsWith("ll")); // 判断时候是这个字符开头
-        System.out.println(str.endsWith("d ")); // 判断是否是这个字符结尾
-        System.out.println(str.replaceAll("ll", "?")); // 全部替换成指定的内容
-        System.out.println(str.replaceFirst("ll", "?")); // 替换第一个出现的内容
     }
 
     @Test
@@ -297,10 +370,11 @@ public class DemoTest_01 {
         // TextUtil.underscoreName()方法是增加大写字母的下划线 pending_name
         String s2 = TextUtil.underscoreName("pendingName");
         System.out.println(s2);
-        List<String> list = Arrays.asList(string); // 数组转集合，集合转数组
+        List<String> list = Arrays.asList(string); // 数组转集合，集合转数组 数据转List List转数组
         System.out.println(list);
         String[] strings = list.toArray(new String[]{});
         System.out.println(Arrays.toString(strings));
+
     }
 
     @Test
@@ -509,6 +583,7 @@ public class DemoTest_01 {
         System.out.println(date);
         try {
             Date parse = sdf.parse("1997-12-07 00:00:00");
+            System.out.println(parse);
             System.out.println(parse.getTime());
         } catch (ParseException e) {
             e.printStackTrace();
@@ -577,7 +652,7 @@ public class DemoTest_01 {
             System.out.println(strings[i]);
         }
         List<String> list = Arrays.asList(split);
-        System.out.println(list); // Set集合转List集合
+        System.out.println(list); // Set转List集合
 
         List list1 = new ArrayList(list); // list这玩意好像不是list，需要转义一次成list
         for (int i = 0; i < list1.size(); i++) {

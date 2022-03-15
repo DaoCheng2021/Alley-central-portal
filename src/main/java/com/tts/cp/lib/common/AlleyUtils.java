@@ -61,7 +61,7 @@ public class AlleyUtils {
         if (list != null && !list.isEmpty()) {
             Iterator<String> iList = list.iterator();
             StringBuffer sb = (new StringBuffer("(")).append("'").append((String) iList.next()).append("'");
-
+            // iterator 迭代器 .next()返回迭代器下一个元素 .hasNext()判断迭代器有值就是true
             while (iList.hasNext()) {
                 sb.append(",'").append((String) iList.next()).append("'");
             }

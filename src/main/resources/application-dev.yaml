@@ -42,6 +42,13 @@ icon:
     mail-unapproved-icon:
       tpl-name: UnapprovedIconEmailTpl.ftl
       subject: DEV YUM Central Portal Unapproved Icons
+    mail-do-publish:
+      emailMode: (DEV)
+      subject: "send email subject:%1$s   %2$s   %3$s "
+      template: PublishRequestSend.ftl
+      sendTo: 2268760957@qq.com
+
+
 
     bcc: 3566154855@qq.com
     weeklycron: 0 0 9 * * 1
@@ -71,7 +78,7 @@ template1:
     {KFC: 'KFC_01',PHI: 'PHI_02',KFC02: 'KFC_02'}
 
 template2:
-  defaultId: 字符串
+  defaultId: string
 
 routine:
   report:

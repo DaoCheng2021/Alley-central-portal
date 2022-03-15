@@ -18,7 +18,7 @@ import java.util.Map;
  * @author Alley zhao created on 2021/11/26.
  */
 @Slf4j
-@RestController
+@RestController // 注解=@Controller+@ResponseBody结合  @ResponseBody：将java对象转换成Json数据
 @RequestMapping("redisController")
 public class RedisController {
 

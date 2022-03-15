@@ -20,6 +20,7 @@ public class MailServiceImpl implements MailService {
 
     @Override
     public StandardResponse sendEmail(Map<String, Object> emailParams) {
+        log.info("-------日志打印");
         String emailKey = (String) emailParams.get("emailKey");
         StandardResponse standardResponse = new StandardResponse();
         if (!StringUtils.hasText(emailKey)) { //String.hasText(String) 空是true

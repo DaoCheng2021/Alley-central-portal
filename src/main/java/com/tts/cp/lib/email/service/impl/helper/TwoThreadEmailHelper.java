@@ -15,7 +15,7 @@ import java.util.Map;
 @Service("TwoThreadEmailHelper")
 public class TwoThreadEmailHelper extends AbstractMailHelper {
 
-    @Async
+    @Async // 多线程注解，主线程遇到此注解自动返回
     @Override
     public StandardResponse sendEmail(Map<String, Object> emailParams) throws Exception {
         log.info("------TwoThreadEmailHelper");

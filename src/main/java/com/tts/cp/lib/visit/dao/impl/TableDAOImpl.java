@@ -13,6 +13,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +24,8 @@ import java.util.Set;
  * @author Alley zhao created on 2021/10/21.
  */
 @Slf4j
-@Component
+//@Component
+@Repository
 public class TableDAOImpl implements TableDAO {
 
     @Qualifier("jdbcTemplate")
