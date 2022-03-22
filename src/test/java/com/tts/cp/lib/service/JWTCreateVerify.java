@@ -25,6 +25,8 @@ import java.util.Map;
  */
 @Slf4j
 public class JWTCreateVerify {
+
+
     /*
         https://blog.csdn.net/weixin_45070175/article/details/118559272?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522164258890916780255256179%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=164258890916780255256179&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v31_ecpm-1-118559272.pc_search_result_cache&utm_term=jwt&spm=1018.2226.3001.4187
         这个csdn的jwt写的比较清晰
@@ -128,7 +130,7 @@ public class JWTCreateVerify {
     }
 
     @Test
-    public void test01(HttpServletRequest request){
+    public void test01(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
 
     }

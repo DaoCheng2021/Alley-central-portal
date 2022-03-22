@@ -29,7 +29,10 @@ import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -48,9 +51,91 @@ public class DemoTest_01 {
     private final ArrayList arrayList = new ArrayList<String>();
 
     @Test
-    public void test42() {
+    public void test01(){
 
     }
+
+    @Test // HashMap常用方法
+    public void test42() {
+        Map<String, String> map = new HashMap();
+        map.put("", "");
+        Set<Map.Entry<String, String>> entries = map.entrySet(); // 遍历循环
+        for (Map.Entry<String, String> entry : entries) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+        }
+        map.containsKey(""); // 判断是否包含
+        map.size(); // 长度
+        map.get(""); //获取values
+        map.remove(""); // 删除
+        boolean empty = map.isEmpty(); // 判断是否为空
+
+    }
+/*
+    public static void main(String[] args) {
+        System.out.println("创建线程");
+        Runnable runnable = () -> {
+            System.out.println("创建线程1");
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("创建线程2");
+        };
+        new Thread(runnable).start();
+        System.out.println("创建线程3");
+//        -----------------
+        System.out.println("创建线程");
+        new Thread(() -> {
+            System.out.println("创建线程1");
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("创建线程2");
+        }).start();
+        System.out.println("创建线程3");
+    } */
+
+    // 1.核心线程数（当线程池运行的线程少于CorePoolSize时，创建一个新的线程处理请求。就是最少的线程数量）2.最多可以存在的线程数据9 3.存活时间 4. 5.用于保留任务并移交给工作线程的阻塞队列
+    private static ExecutorService executor = new ThreadPoolExecutor(2, 9,
+            60L, TimeUnit.SECONDS,
+            new ArrayBlockingQueue(10));
+
+    public static void main(String[] args) {
+        // 创建线程池
+        executor.execute(() -> {
+            System.out.println("创建线程池1");
+            try {
+                Thread.sleep(5000);
+                System.out.println("创建线程池1");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        executor.execute(() -> {
+            System.out.println("创建线程池12");
+            try {
+                Thread.sleep(5000);
+                System.out.println("创建线程池12");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        executor.execute(() -> {
+            System.out.println("创建线程池13");
+            try {
+                Thread.sleep(5000);
+                System.out.println("创建线程池123");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+
+    }
+
 
     // 计算出String每种字符出现的次数
     @Test
@@ -183,31 +268,31 @@ public class DemoTest_01 {
      * CAS：主要包含了三个操作数->内存位置，预期原值和新值。把内存位置的值和预期原值比较，如果相匹配，处理器自动会把新值放到内存位置上，如果不匹配，不做任何操作。
      * */
 //    private static volatile int a = 0;
-    public static void main(String[] args) {
-        AtomicInteger a = new AtomicInteger();
-        Thread[] thread = new Thread[5];
-        for (int i = 0; i < 5; i++) {
-            thread[i] = new Thread(() -> {
-                for (int y = 0; y < 10; y++) {
-                    System.out.println(a.incrementAndGet());
-//                    System.out.println(a++);
-                    /*
-                     * 不用AtomicInteger的乐观锁->a++做了三件事情
-                     * 1.从主存中读取a的值
-                     * 2.对a进行加1的操作
-                     * 3.把加1后的a重新刷新到主存中
-                     * 但是刷新之前别的线程已经改变了主存的值，那么就会造成数据错误
-                     * */
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-            thread[i].start();
-        }
-    }
+//    public static void main(String[] args) {
+//        AtomicInteger a = new AtomicInteger();
+//        Thread[] thread = new Thread[5];
+//        for (int i = 0; i < 5; i++) {
+//            thread[i] = new Thread(() -> {
+//                for (int y = 0; y < 10; y++) {
+//                    System.out.println(a.incrementAndGet());
+////                    System.out.println(a++);
+//                    /*
+//                     * 不用AtomicInteger的乐观锁->a++做了三件事情
+//                     * 1.从主存中读取a的值
+//                     * 2.对a进行加1的操作
+//                     * 3.把加1后的a重新刷新到主存中
+//                     * 但是刷新之前别的线程已经改变了主存的值，那么就会造成数据错误
+//                     * */
+//                    try {
+//                        Thread.sleep(500);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            });
+//            thread[i].start();
+//        }
+//    }
 
     @Test
     public void test33() {
