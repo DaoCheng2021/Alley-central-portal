@@ -56,6 +56,7 @@ public class CourseServiceImpl implements CourseService {
         List<String> list = courseDAO.getSpTestAlley3(versionId);
         StandardResponse sr = new StandardResponse<>();
         sr.setData(list);
+
         return sr;
     }
 

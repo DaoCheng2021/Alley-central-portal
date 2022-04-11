@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -84,5 +85,8 @@ public class LibItemsMini {
 
     @Transient
     private List<LibItemsMini> data = new ArrayList<>();
+
+    @Transient
+    private HashSet hashSet;
 
 }

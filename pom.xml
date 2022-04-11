@@ -130,7 +130,7 @@
             <artifactId>java-jwt</artifactId>
             <version>3.8.2</version>
         </dependency>
-
+        <!--JJwt Jwts.builder jwt加密的另一种方式，和jwt大同小异-->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>

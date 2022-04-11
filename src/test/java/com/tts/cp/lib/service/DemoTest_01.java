@@ -17,7 +17,11 @@ import com.tts.lib.utils.TextUtil;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.StringUtils;
+import sun.nio.cs.ext.MacArabic;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -29,10 +33,7 @@ import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -51,8 +52,163 @@ public class DemoTest_01 {
     private final ArrayList arrayList = new ArrayList<String>();
 
     @Test
-    public void test01(){
+    public void test47(){
+        List<String> list = new ArrayList<>();
+        list.add(null);
+        list.add(null);
+        list.add("aa");
+        list.add("");
+        System.out.println(list.size());
+        list.add(1,"w");
+    }
 
+    public static void main(String[] args) throws ParseException {
+        SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
+        Date startTime = ft.parse("2022-03-05");
+        Date endTime = ft.parse("2022-04-09");
+        Date nowTime = new Date();
+        boolean effectiveDate = isEffectiveDate(nowTime, startTime, endTime);
+        if (effectiveDate) {
+            System.out.println("当前时间在范围内");
+        }else {
+            System.out.println("当前时间在不在范围内");
+        }
+    }
+    @Test
+    public void test46(){
+        boolean effectiveDate = isEffectiveDate("2022-01-01", "2022-03-31", "2021-03-05");
+    }
+
+    public boolean isEffectiveDate(String startDateString, String endDateString, String nowDateString) {
+        log.info("--isEffectiveDate:{},{},{}", startDateString, endDateString, nowDateString);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date startDate = sdf.parse(startDateString);
+            Date endDate = sdf.parse(endDateString);
+            Date nowDate = sdf.parse(nowDateString);
+            if (startDate.getTime() == nowDate.getTime() || endDate.getTime() == nowDate.getTime()) {
+                return true;
+            }
+
+            Calendar now = Calendar.getInstance();
+            now.setTime(nowDate);
+
+            Calendar start = Calendar.getInstance();
+            start.setTime(startDate);
+
+            Calendar end = Calendar.getInstance();
+            end.setTime(endDate);
+
+            if (now.after(start) && now.before(end)) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    /**
+     *
+     * @param nowTime   当前时间
+     * @param startTime	开始时间
+     * @param endTime   结束时间
+     * @return
+     * @author sunran   判断当前时间在时间区间内
+     */
+    public static boolean isEffectiveDate(Date nowTime, Date startTime, Date endTime) {
+        if (nowTime.getTime() == startTime.getTime()
+                || nowTime.getTime() == endTime.getTime()) {
+            return true;
+        }
+        Calendar date = Calendar.getInstance();
+        date.setTime(nowTime);
+
+        Calendar begin = Calendar.getInstance();
+        begin.setTime(startTime);
+
+        Calendar end = Calendar.getInstance();
+        end.setTime(endTime);
+
+        if (date.after(begin) && date.before(end)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Test
+    public void test45() {
+        //计算出String每个字符出现的次数
+        String string = "concu";
+        int length = string.length();
+        Map<Character, Integer> map = new HashMap();
+        for (int i = 0; i < length; i++) {
+            char c = string.charAt(i);
+            if (map.containsKey(c)) {
+                map.put(c, map.get(c) + 1);
+            } else {
+                map.put(c, 1);
+            }
+        }
+        Set<Map.Entry<Character, Integer>> entries = map.entrySet();
+        for (Map.Entry<Character, Integer> entry : entries) {
+            System.out.println(entry.getKey() + "-" + entry.getValue());
+        }
+        Integer integer = map.get("www");
+    }
+
+    // 它两个template区别就是序列化不同，redisTemplate序列化成字节数组存在redis里面，取出来也是。StringRedis就是String类型
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+    @Autowired
+    private RedisTemplate redisTemplate2;
+
+    @Test
+    public void test44() {
+
+        //
+        Calendar calendar = Calendar.getInstance();
+        // 页儿 年
+        int year = calendar.get(Calendar.YEAR);
+        // 闷父 月
+        int month = calendar.get(Calendar.MONTH);
+        // 日
+        int date = calendar.get(Calendar.DATE);
+        // 阿窝 小时
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int moa = calendar.get(Calendar.AM_PM);
+        int i1 = calendar.get(Calendar.DAY_OF_YEAR);
+        int i = calendar.get(Calendar.DAY_OF_MONTH);
+        int i2 = calendar.get(Calendar.DAY_OF_WEEK);
+    }
+
+    @Test // 判断时间是否在当前时间之前
+    public void test43() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-ss");
+        try {
+            Date parse = sdf.parse("2022-03-01");
+            Date date = new Date();
+            if (parse.getTime() < System.currentTimeMillis()) {
+                System.out.println("早于");
+            }
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(parse);
+            int day = calendar.get(Calendar.DAY_OF_YEAR);
+            int year = calendar.get(Calendar.YEAR);
+            calendar.setTime(date);
+            int nowDay = calendar.get(Calendar.DAY_OF_YEAR);
+            int nowYear = calendar.get(Calendar.YEAR);
+            // 早于当前日期true     相等晚于当前日期false
+            if (year < nowYear || day < nowDay) {
+                System.out.println("早于当前日期");
+            } else {
+                System.out.println("晚于&等于当前日期");
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test // HashMap常用方法
@@ -104,37 +260,37 @@ public class DemoTest_01 {
             60L, TimeUnit.SECONDS,
             new ArrayBlockingQueue(10));
 
-    public static void main(String[] args) {
-        // 创建线程池
-        executor.execute(() -> {
-            System.out.println("创建线程池1");
-            try {
-                Thread.sleep(5000);
-                System.out.println("创建线程池1");
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
-        executor.execute(() -> {
-            System.out.println("创建线程池12");
-            try {
-                Thread.sleep(5000);
-                System.out.println("创建线程池12");
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
-        executor.execute(() -> {
-            System.out.println("创建线程池13");
-            try {
-                Thread.sleep(5000);
-                System.out.println("创建线程池123");
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
-
-    }
+//    public static void main(String[] args) {
+//        // 创建线程池
+//        executor.execute(() -> {
+//            System.out.println("创建线程池1");
+//            try {
+//                Thread.sleep(5000);
+//                System.out.println("创建线程池1");
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        });
+//        executor.execute(() -> {
+//            System.out.println("创建线程池12");
+//            try {
+//                Thread.sleep(5000);
+//                System.out.println("创建线程池12");
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        });
+//        executor.execute(() -> {
+//            System.out.println("创建线程池13");
+//            try {
+//                Thread.sleep(5000);
+//                System.out.println("创建线程池123");
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        });
+//
+//    }
 
 
     // 计算出String每种字符出现的次数
@@ -459,7 +615,9 @@ public class DemoTest_01 {
         System.out.println(list);
         String[] strings = list.toArray(new String[]{});
         System.out.println(Arrays.toString(strings));
-
+        //list转set set转list
+        Set<String> set = list.stream().collect(Collectors.toSet());
+        List<String> collect = set.stream().collect(Collectors.toList());
     }
 
     @Test
