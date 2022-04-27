@@ -675,7 +675,7 @@ final 最终， finally(伐闹里)终于， finalize(伐闹来斯)最后决定 R
 小赵小赵，吉星高照
 expects at least 2 arguments but only found 1
 --- 2 25
-二十二岁的初出茅庐，十年的广飘结束了，明天最早的机票。莫名的感觉，有些感慨，很多不舍，广州....从此以后再也没有急匆匆的外卖，再也没有三号线的拥挤，再也没有午夜下班的疲惫，再也没有996对周末的期待。
+二十二岁的初出茅庐，十年的广飘结束了，明天最早的机票。莫名的感觉，有些感慨，很多不舍，广州....从此以后再也没有急匆匆的外卖，再也没有三号线的拥挤，再也没有午夜下班的疲惫，再也没有对周末的期待。
 再见，你说的，没有冬天的城市。
 --- 2 28
 Stream list.stream获取某个字段列, string，stringBuffer, StringBuilder  final
@@ -721,6 +721,25 @@ linux
 不做没意义的事情
 --- 3 21
 这周要面试
+--- 4 12 
+想清楚了，我也必须舍弃以前的习惯了。之前总是自己骗自己，自己糊弄自己。以后我要把学习，学java变成自己生活的一部分。加油
+--- 4 20
+
+
+    CREATE TABLE store_basic_cfg
+(
+    store_id INT  NOT NULL COMMENT '店铺标识',
+    product_group_level INT NULL DEFAULT NULL COMMENT '商品分组级别（一级：1，二级：2，三级：3）',
+    order_auto_sign_days INT NULL DEFAULT NULL COMMENT '订单自动签收天数',
+    order_pay_aging INT NULL DEFAULT NULL COMMENT '订单支付时效（秒）',
+    coupon_qr_domain VARCHAR(50) NULL DEFAULT NULL COMMENT '领券二维码域名',
+    merchant_id INT NULL DEFAULT NULL COMMENT '商家标识',
+    create_by VARCHAR(20) NULL DEFAULT NULL COMMENT '创建者',
+    create_time DATETIME NULL DEFAULT NULL COMMENT '创建时间',
+    update_by VARCHAR(20) NULL DEFAULT NULL COMMENT '更新者',
+    update_time DATETIME NULL DEFAULT NULL COMMENT '更新时间',
+    PRIMARY KEY (store_id)
+);
 
 
 

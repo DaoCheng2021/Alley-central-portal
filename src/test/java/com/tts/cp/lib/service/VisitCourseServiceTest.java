@@ -5,7 +5,9 @@ import com.tts.cp.lib.visit.bean.LibItemsMini;
 import com.tts.cp.lib.visit.bean.SpValidation;
 import com.tts.cp.lib.visit.service.CourseService;
 import com.tts.cp.lib.visit.service.MultiThreadingService;
+import com.tts.cp.lib.visit.service.TestAll;
 import com.tts.lib.web.StandardResponse;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,7 @@ import java.util.concurrent.locks.ReentrantLock;
 //于数据库交互，SQL，存储过程演示
 @Slf4j
 @SpringBootTest
+@AllArgsConstructor
 public class VisitCourseServiceTest {
 
     @Autowired
@@ -39,7 +42,6 @@ public class VisitCourseServiceTest {
 
     @Autowired
     private MultiThreadingService multiThreadingService;
-
 
     //
 //    public String createJWT(String id,String subject){

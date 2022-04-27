@@ -14,8 +14,10 @@ import com.tts.cp.lib.visit.bean.ConfPerform;
 import com.tts.cp.lib.visit.bean.LibItemsMini;
 import com.tts.cp.lib.visit.bean.User;
 import com.tts.lib.utils.TextUtil;
+import io.netty.util.internal.ObjectUtil;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
+import org.apache.commons.lang3.ObjectUtils;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -52,6 +54,30 @@ public class DemoTest_01 {
     private final ArrayList arrayList = new ArrayList<String>();
 
     @Test
+    public void test48(){
+        // ArrayList排序去重删除
+        List<Integer> list = new ArrayList<>();
+        list.add(3);
+        list.add(4);
+        list.add(4);
+        list.add(1);
+        // 删除，只能删除一个元素
+        boolean remove = list.remove((Integer) 4);
+        // 删除所有符合的元素
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).equals("4")){
+                list.remove(i);
+                i--;
+            }
+        }
+        // 排序
+        Collections.sort(list);
+        // 去重
+        List<Integer> listFinal = new ArrayList<>(new LinkedHashSet<>(list));
+        System.out.println(listFinal);
+    }
+
+    @Test
     public void test47(){
         List<String> list = new ArrayList<>();
         list.add(null);
@@ -62,18 +88,18 @@ public class DemoTest_01 {
         list.add(1,"w");
     }
 
-    public static void main(String[] args) throws ParseException {
-        SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
-        Date startTime = ft.parse("2022-03-05");
-        Date endTime = ft.parse("2022-04-09");
-        Date nowTime = new Date();
-        boolean effectiveDate = isEffectiveDate(nowTime, startTime, endTime);
-        if (effectiveDate) {
-            System.out.println("当前时间在范围内");
-        }else {
-            System.out.println("当前时间在不在范围内");
-        }
-    }
+//    public static void main(String[] args) throws ParseException {
+//        SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
+//        Date startTime = ft.parse("2022-03-05");
+//        Date endTime = ft.parse("2022-04-09");
+//        Date nowTime = new Date();
+//        boolean effectiveDate = isEffectiveDate(nowTime, startTime, endTime);
+//        if (effectiveDate) {
+//            System.out.println("当前时间在范围内");
+//        }else {
+//            System.out.println("当前时间在不在范围内");
+//        }
+//    }
     @Test
     public void test46(){
         boolean effectiveDate = isEffectiveDate("2022-01-01", "2022-03-31", "2021-03-05");
