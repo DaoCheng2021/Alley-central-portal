@@ -747,6 +747,17 @@ linux
 --- 2022 5 12
 应该跟黎婷完了，没什么后悔的事，就是怪自己管不住自己，当初不认识她多好。
 发现电脑里还有六月末这首歌，每次听都能想起家后面有条火车道，然后以前去网吧玩游戏总是听这首歌。哪个时候去当兵坐火车还从我家后面的火车道走的，路过那那座桥，是我去过的桥。我之前还在桥上看火车，希望有一天坐车火车去远方。记忆越来越模糊，总是回忆过去不好吧！
+--- 5 13
+create table user_innodb4(
+	id int not null AUTO_INCREMENT primary key, -- 不能为null 递增 id是主键id（默认也是主键索引）
+	first_name varchar(16),
+	last_name VARCHAR(16),
+	id_card VARCHAR(16),
+	information text, 
+	key name (first_name,last_name), -- 普通索引
+	fulltext key (information), -- 全文索引
+	unique key(id_card) -- 唯一索引
+)
 
 
 
