@@ -14,16 +14,13 @@ import com.tts.cp.lib.visit.bean.ConfPerform;
 import com.tts.cp.lib.visit.bean.LibItemsMini;
 import com.tts.cp.lib.visit.bean.User;
 import com.tts.lib.utils.TextUtil;
-import io.netty.util.internal.ObjectUtil;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
-import org.apache.commons.lang3.ObjectUtils;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.StringUtils;
-import sun.nio.cs.ext.MacArabic;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -34,8 +31,11 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -44,17 +44,50 @@ import java.util.stream.Collectors;
  */
 //所有java方法的单元测试，一些基本方法
 @Slf4j
-public class DemoTest_01 {
+public  class  DemoTest_01 {
 
     private SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd HH:mm");
 
     // 静态类变量和类变量会自动设置初始值，用final修饰的类变量或者局部变量必须手动赋值。
-    static int in;
+    static int in2;
 
     private final ArrayList arrayList = new ArrayList<String>();
 
+    private static Set<String> set = Collections.synchronizedSet(new HashSet<>());
+
+//    private static ThreadLocal<String> threadLocal = new ThreadLocal<>();
+    private static String threadLocal ;
+
     @Test
-    public void test48(){
+    public void test50() throws JsonProcessingException {
+        new Thread(()->{
+//            threadLocal.set("AA");
+//            String s = threadLocal.get();
+            threadLocal ="AA";
+            System.out.println(threadLocal);
+        }).start();
+
+//        System.out.println("-"+threadLocal.get());
+        System.out.println("-"+threadLocal);
+    }
+
+    @Test
+    public void test49() {
+        List<String> list = new ArrayList();
+        list.add("1");
+        list.add("3");
+        list.add("2");
+        Iterator<String> iterator = list.iterator();
+        while (iterator.hasNext()){
+            System.out.println(iterator.next());
+        }
+        Set set = new HashSet();
+        Collections.sort(list);
+        System.out.println(list);
+    }
+
+    @Test
+    public void test48() {
         // ArrayList排序去重删除
         List<Integer> list = new ArrayList<>();
         list.add(3);
@@ -65,7 +98,7 @@ public class DemoTest_01 {
         boolean remove = list.remove((Integer) 4);
         // 删除所有符合的元素
         for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).equals("4")){
+            if (list.get(i).equals("4")) {
                 list.remove(i);
                 i--;
             }
@@ -78,17 +111,17 @@ public class DemoTest_01 {
     }
 
     @Test
-    public void test47(){
+    public void test47() {
         List<String> list = new ArrayList<>();
         list.add(null);
         list.add(null);
         list.add("aa");
         list.add("");
         System.out.println(list.size());
-        list.add(1,"w");
+        list.add(1, "w");
     }
 
-//    public static void main(String[] args) throws ParseException {
+    //    public static void main(String[] args) throws ParseException {
 //        SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
 //        Date startTime = ft.parse("2022-03-05");
 //        Date endTime = ft.parse("2022-04-09");
@@ -101,7 +134,7 @@ public class DemoTest_01 {
 //        }
 //    }
     @Test
-    public void test46(){
+    public void test46() {
         boolean effectiveDate = isEffectiveDate("2022-01-01", "2022-03-31", "2021-03-05");
     }
 
@@ -135,10 +168,10 @@ public class DemoTest_01 {
             return false;
         }
     }
+
     /**
-     *
      * @param nowTime   当前时间
-     * @param startTime	开始时间
+     * @param startTime 开始时间
      * @param endTime   结束时间
      * @return
      * @author sunran   判断当前时间在时间区间内
@@ -253,7 +286,7 @@ public class DemoTest_01 {
         boolean empty = map.isEmpty(); // 判断是否为空
 
     }
-/*
+
     public static void main(String[] args) {
         System.out.println("创建线程");
         Runnable runnable = () -> {
@@ -279,7 +312,7 @@ public class DemoTest_01 {
             System.out.println("创建线程2");
         }).start();
         System.out.println("创建线程3");
-    } */
+    }
 
     // 1.核心线程数（当线程池运行的线程少于CorePoolSize时，创建一个新的线程处理请求。就是最少的线程数量）2.最多可以存在的线程数据9 3.存活时间 4. 5.用于保留任务并移交给工作线程的阻塞队列
     private static ExecutorService executor = new ThreadPoolExecutor(2, 9,
@@ -398,18 +431,6 @@ public class DemoTest_01 {
     finally 配合try catch使用，有无异常都会走里面的代码。可以写必须要写的代码
     finalize 是Object的一个垃圾回收的方法。
     * */
-    @Test
-    public void test38() {
-        try {
-//            int i=1/0;
-            System.out.println("开始");
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            System.out.println("最终实现的代码");
-        }
-        System.out.println("结束");
-    }
 
     @Test
     public void test37() {
@@ -963,16 +984,7 @@ public class DemoTest_01 {
 
     @Test
     public void test07() {
-        List<User> list = new ArrayList<>();
-        list.add(new User("a", "a", 1));
-        list.add(new User("b", "b", 2));
-        list.add(new User("c", "c", 3));
-        list.stream().forEach(user -> System.out.println(user.getId()));
-        list.stream().map(user -> user.getId()).forEach(user -> System.out.println(user));
-        list.stream().forEach(n -> System.out.println(n));
-        for (User user : list) {
-            System.out.println(user);
-        }
+
 
     }
 
@@ -1108,5 +1120,4 @@ public class DemoTest_01 {
         String string1 = StringUtils.collectionToCommaDelimitedString(list);//把集合数据通过 ，相连变成字符串
         System.out.println();
     }
-
 }

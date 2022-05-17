@@ -5,7 +5,6 @@ import com.tts.cp.lib.visit.bean.LibItemsMini;
 import com.tts.cp.lib.visit.bean.SpValidation;
 import com.tts.cp.lib.visit.service.CourseService;
 import com.tts.cp.lib.visit.service.MultiThreadingService;
-import com.tts.cp.lib.visit.service.TestAll;
 import com.tts.lib.web.StandardResponse;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -241,7 +240,7 @@ public class VisitCourseServiceTest {
     }
 
     @Test
-    public void test01(){
+    public void test01() {
         System.out.println(courseService.test("test----"));
     }
 
